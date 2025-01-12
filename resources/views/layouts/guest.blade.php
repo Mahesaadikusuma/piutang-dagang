@@ -19,7 +19,7 @@
     @livewireStyles
 </head>
 
-<body class="antialiased bg-belibang-black font-poppins text-white">
+<body class="antialiased bg-belibang-black font-poppin">
     @include('includes.navbar')
     <div class="">
         {{ $slot }}
