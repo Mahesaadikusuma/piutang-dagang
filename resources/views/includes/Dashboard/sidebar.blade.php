@@ -6,10 +6,11 @@
     $isOverview = request()->routeIs('dashboard');
     $isSales = request()->routeIs('productList') || request()->routeIs('categoryList');
 @endphp
+
 <aside x-data="{ openPages: false, openAuth: false, openSales: false }"
-    class="fixed top-0 left-0 z-40 w-64 h-screen pt-14 transition-transform -translate-x-full bg-white border-r border-gray-200 md:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
-    aria-label="Sidenav" id="drawer-navigation">
-    <div class="py-5 px-3 h-full bg-white dark:bg-gray-800">
+    :class="{ '-translate-x-full': !isSidebarOpen && isMobile, 'translate-x-0': isSidebarOpen || !isMobile }"
+    class="fixed top-0 left-0 z-40 w-64 h-screen pt-14 transition-transform bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+    <div class="overflow-y-auto py-5 px-3 h-full bg-white dark:bg-gray-800">
         <ul class="space-y-2">
             <li>
                 <a href="{{ route('dashboard') }}" wire:navigate.hover
@@ -25,7 +26,6 @@
                 </a>
             </li>
 
-            {{-- Sales --}}
             <li>
                 <button type="button" @click="openSales = !openSales"
                     class="flex items-center p-2 w-full text-base font-medium rounded-lg transition duration-75 group 
@@ -70,10 +70,6 @@
                 </ul>
             </li>
 
-
-
-
-            <!-- Dropdown Auth -->
             <li>
                 <button type="button" @click="openAuth = !openAuth"
                     class="flex items-center p-2 w-full text-base font-medium rounded-lg transition duration-75 group 
@@ -143,8 +139,9 @@
                     </span>
                 </a>
             </li>
-        </ul>
-        <ul class="pt-5 mt-5 space-y-2 border-t border-gray-200 dark:border-gray-700">
+
+            <ul class="pt-5 mt-5 space-y-2 border-t border-gray-200 dark:border-gray-700">
+            </ul>
         </ul>
     </div>
 
@@ -184,7 +181,5 @@
             Logout
             <div class="tooltip-arrow" data-popper-arrow></div>
         </div>
-
-
     </div>
 </aside>

@@ -21,27 +21,45 @@
 </head>
 
 <body class="font-sans antialiased">
-
-
-    <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-        {{-- @livewire('navigation-menu') --}}
-        {{-- Navbar --}}
+    <div x-data="sidebar()" x-init="init()" class="min-h-screen bg-gray-100 dark:bg-gray-900">
         @include('includes.Dashboard.navbar')
-        {{-- Navbar --}}
 
-
-        {{-- Sidebar --}}
+        <!-- Sidebar -->
         @include('includes.Dashboard.sidebar')
 
-
-        <!-- Page Content -->
-        <main class="p-4 md:ml-64 h-auto  pt-20">
+        <main class="p-4 md:ml-64 h-auto pt-20">
             {{ $slot }}
         </main>
     </div>
-    
+
+    <script>
+        function sidebar() {
+            return {
+                isSidebarOpen: false,
+                isMobile: window.innerWidth < 768,
+                toggleSidebar() {
+                    this.isSidebarOpen = !this.isSidebarOpen;
+                },
+                closeSidebar() {
+                    if (this.isMobile) {
+                        this.isSidebarOpen = false;
+                    }
+                },
+                init() {
+                    window.addEventListener('resize', () => {
+                        this.isMobile = window.innerWidth < 768;
+                        if (!this.isMobile) {
+                            this.isSidebarOpen = true; // Show sidebar by default on desktop
+                        }
+                    });
+                },
+            };
+        }
+    </script>
+
     <x-toaster-hub />
     @stack('modals')
+
 
     @stack('script')
     @livewireScripts
