@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Cviebrock\EloquentSluggable\Services\SlugService;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -40,11 +42,26 @@ class Product extends Model
         });
     }
 
-    public function getPricedAttribute()
+    // public function getPricedAttribute()
+    // {
+    //     return 'Rp. ' . number_format($this->price, 0, ',', '.');
+    // }
+
+    protected function price(): Attribute
     {
-        return 'Rp. ' . number_format($this->price, 0, ',', '.');
+        return Attribute::make(
+            get: fn($value) => 'Rp. ' . number_format($value, 0, ',', '.'),
+            set: fn($value) => (int) preg_replace('/[^\d]/', '', $value)
+        );
     }
 
+    protected function stock(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => number_format($value, 0, ',', '.'),
+            set: fn($value) => (int) preg_replace('/[^\d]/', '', $value)
+        );
+    }
 
     /**
      * Get the categories that owns the Product

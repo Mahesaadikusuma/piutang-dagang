@@ -43,7 +43,7 @@
                     </td>
 
                     <td class="px-4 py-3">{{ $product->stock }}</td>
-                    <td class="px-4 py-3">{{ $product->Priced }}</td>
+                    <td class="px-4 py-3">{{ $product->price }}</td>
                     <td class="px-4 py-3">{{ $product->created_at->diffForHumans() }}</td>
                     <td>
                         <div wire:ignore class="flex gap-3 items-center">

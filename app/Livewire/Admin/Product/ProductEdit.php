@@ -2,11 +2,11 @@
 
 namespace App\Livewire\Admin\Product;
 
-use App\Repositories\ProductRepositoryInterface;
 use App\Models\Category;
 use App\Models\Product;
 use App\Repository\ProductRepository;
 use Exception;
+use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
@@ -41,10 +41,10 @@ class ProductEdit extends Component
     #[Validate("nullable|image|mimes:jpeg,png,jpg|max:3048")]
     public $thumbnail;
     
-    #[Validate("required|integer")]
+    #[Validate("required|numeric")]
     public $price;
 
-    #[Validate("required|integer")]
+    #[Validate("required|numeric")]
     public $stock;
 
     
@@ -69,7 +69,6 @@ class ProductEdit extends Component
     {
         try {
             $this->validate();
-
             $data = [
                 'category_id' => $this->category_id,
                 'name' => $this->name,
@@ -83,9 +82,10 @@ class ProductEdit extends Component
             }
 
             $this->productRepository->updateProduct($data, $this->product);
-
-            Toaster::success('Product Telah di Update!');
+            Log::info($this->productRepository->updateProduct($data, $this->product));
+            Toaster::success('Product Telah di Update!');   
         } catch (Exception $e) {
+            Log::info('Product Update Error: ' . $e->getMessage());
             Toaster::error('Validasi gagal: ' . $e->getMessage());
         }
     }

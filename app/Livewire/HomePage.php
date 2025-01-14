@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Service\Front;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Component;
@@ -10,8 +11,17 @@ use Livewire\Component;
 #[Title('Home Page')]
 class HomePage extends Component
 {
-    public function render()
+
+    protected $frontService;
+
+    // Menggunakan mount untuk menyuntikkan Front service
+    public function mount(Front $frontService)
     {
-        return view('livewire.page.home-page');
+        $this->frontService = $frontService;
+    }
+    public function render()
+    {   
+        $data = $this->frontService->getFrontData();
+        return view('livewire.page.home-page',$data);
     }
 }

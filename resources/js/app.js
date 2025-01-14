@@ -1,9 +1,13 @@
-import './bootstrap';
-import 'flowbite';
-import Swal from 'sweetalert2'
-import Toastify from 'toastify-js'
-import '../../vendor/masmerise/livewire-toaster/resources/js';
+import "./bootstrap";
+import "flowbite";
+import Alpine from "alpinejs";
+import Precognition from "laravel-precognition-alpine";
+import mask from "@alpinejs/mask";
 
+window.Alpine = Alpine;
+
+Alpine.plugin([Precognition, mask]);
+Alpine.start();
 // window.addEventListener('settingUpdated', (event) => {
 //     let data = event.detail;
 //     console.log(event)
@@ -29,7 +33,6 @@ import '../../vendor/masmerise/livewire-toaster/resources/js';
 //         }
 //         });
 // })
-
 
 // window.addEventListener('settingUpdated', (event) => {
 //     let data = event.detail;

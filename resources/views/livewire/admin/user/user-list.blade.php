@@ -22,10 +22,11 @@
 
             <x-slot name="actions">
             </x-slot>
-            @forelse ($users as $user)
+            @forelse ($users as $index => $user)
                 <tr class="border-b dark:border-gray-700">
                     <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{ $loop->iteration }}
+                        {{-- {{ $loop->iteration }} --}}
+                        {{ $index + $users->firstItem() }}
                     </th>
                     <td class="px-4 py-3">{{ $user->name }}</td>
                     <td class="px-4 py-3">{{ $user->email }}</td>

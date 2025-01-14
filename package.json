@@ -18,6 +18,8 @@
         "vite": "^5.0"
     },
     "dependencies": {
+        "@alpinejs/mask": "^3.14.8",
+        "laravel-precognition-alpine": "^0.5.14",
         "sweetalert2": "^11.14.5",
         "toastify-js": "^1.12.0"
     }

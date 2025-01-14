@@ -23,7 +23,16 @@ class ProductRepository implements ProductInterface
         return $this->ProductModel->with(['category'])->all();
     }
 
-    public function getProducts($search, $limit = 10)
+    public function getProductLimit($limit = 10)
+    {
+        return $this->ProductModel
+            ->with(['category'])
+            ->orderBy('id', 'desc')
+            ->limit($limit)
+            ->get();
+    }
+
+    public function getPaginatedProducts($search, $limit = 10)
     {
         return $this->ProductModel
             ->with('category')
@@ -35,6 +44,11 @@ class ProductRepository implements ProductInterface
     public function getProduct($id)
     {
         
+    }
+
+    public function getOtherProducts($slug)
+    {
+        return $this->ProductModel->with(['category'])->where('slug', "!=", $slug)->take(5)->get();
     }
 
     public function createProduct($data)

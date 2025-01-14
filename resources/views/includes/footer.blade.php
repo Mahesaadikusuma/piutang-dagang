@@ -4,26 +4,26 @@
             <!-- Left section -->
             <div class="flex flex-col gap-[20px] lg:w-1/4">
                 <div class="flex shrink-0">
-                    <img src="assets/images/logos/logo.svg" alt="logo">
+                    <img src="{{ asset('assets/images/logos/logo.svg') }}" alt="logo">
                 </div>
                 <div class="flex lg:flex-col gap-[10px]">
                     <p class="font-semibold text-sm">Connect with us</p>
                     <div class="flex items-center gap-5">
                         <a href=""
                             class="w-9 h-9 flex shrink-0 rounded-full overflow-hidden border border-[#595959] items-center justify-center">
-                            <img src="assets/images/logos/dribbble.svg" class="w-6 h-6" alt="icon">
+                            <img src="{{ asset('assets/images/logos/dribbble.svg') }}" class="w-6 h-6" alt="icon">
                         </a>
                         <a href=""
                             class="w-9 h-9 flex shrink-0 rounded-full overflow-hidden border border-[#595959] items-center justify-center">
-                            <img src="assets/images/logos/facebook.svg" class="w-6 h-6" alt="icon">
+                            <img src="{{ asset('assets/images/logos/facebook.svg') }}" class="w-6 h-6" alt="icon">
                         </a>
                         <a href=""
                             class="w-9 h-9 flex shrink-0 rounded-full overflow-hidden border border-[#595959] items-center justify-center">
-                            <img src="assets/images/logos/apple.svg" class="w-6 h-6" alt="icon">
+                            <img src="{{ asset('assets/images/logos/apple.svg') }}" class="w-6 h-6" alt="icon">
                         </a>
                         <a href=""
                             class="w-9 h-9 flex shrink-0 rounded-full overflow-hidden border border-[#595959] items-center justify-center">
-                            <img src="assets/images/logos/figma.svg" class="w-6 h-6" alt="icon">
+                            <img src="{{ asset('assets/images/logos/figma.svg') }}" class="w-6 h-6" alt="icon">
                         </a>
                     </div>
                 </div>

@@ -2,7 +2,7 @@
     <div class="container max-w-[1130px] mx-auto flex items-center justify-between h-[74px]">
         <div class="flex items-center gap-[26px]">
             <a wire:navigate href="{{ route('homePage') }}" class="flex w-[154px] shrink-0 items-center">
-                <img src="assets/images/logos/logo.svg" alt="logo">
+                <img src="{{ asset('assets/images/logos/logo.svg') }}" alt="logo">
             </a>
             <ul class="md:flex gap-6 items-center hidden">
                 <li class="text-belibang-grey hover:text-belibang-light-grey transition-all duration-300">
@@ -13,7 +13,7 @@
                     <button id="menu-button" class="flex items-center gap-1 focus:text-belibang-light-grey"
                         @click="dropdown = !dropdown">
                         <span>Categories</span>
-                        <img src="assets/images/icons/arrow-down.svg" alt="icon">
+                        <img src="{{ asset('assets/images/icons/arrow-down.svg') }}" alt="icon">
                     </button>
                     <div x-show="dropdown" x-transition
                         class="dropdown-menu absolute top-[52px] grid grid-cols-2 p-4 gap-[10px] w-[526px] rounded-[20px] bg-[#1E1E1E] border border-[#414141] z-[9999]">
@@ -21,7 +21,7 @@
                             class="col-span-2 flex justify-between items-center rounded-2xl p-[12px_16px] border border-[#414141] hover:bg-[#2A2A2A] transition-all duration-300">
                             <div class="flex items-center">
                                 <a href="" class="w-[58px] h-[58px] flex shrink-0 items-center">
-                                    <img src="assets/images/icons/cart.svg" alt="icon">
+                                    <img src="{{ asset('assets/images/icons/cart.svg') }}" alt="icon">
                                 </a>
                                 <a href="" class="flex flex-col">
                                     <p class="font-bold text-sm text-white">All Products</p>
@@ -29,14 +29,14 @@
                                 </a>
                             </div>
                             <div class="w-6 h-6 flex shrink-0">
-                                <img src="assets/images/icons/crown.svg" alt="icon">
+                                <img src="{{ asset('assets/images/icons/crown.svg') }}" alt="icon">
                             </div>
                         </div>
                         <div
                             class="flex justify-between items-center rounded-2xl p-[12px_16px] border border-[#414141] hover:bg-[#2A2A2A] transition-all duration-300">
                             <div class="flex items-center">
                                 <a href="" class="w-[58px] h-[58px] flex shrink-0 items-center">
-                                    <img src="assets/images/icons/laptop.svg" alt="icon">
+                                    <img src="{{ asset('assets/images/icons/laptop.svg') }}" alt="icon">
                                 </a>
                                 <a href="" class="flex flex-col">
                                     <p class="font-bold text-sm text-white">Templates</p>
@@ -48,7 +48,7 @@
                             class="flex justify-between items-center rounded-2xl p-[12px_16px] border border-[#414141] hover:bg-[#2A2A2A] transition-all duration-300">
                             <div class="flex items-center">
                                 <a href="" class="w-[58px] h-[58px] flex shrink-0 items-center">
-                                    <img src="assets/images/icons/hat.svg" alt="icon">
+                                    <img src="{{ asset('assets/images/icons/hat.svg') }}" alt="icon">
                                 </a>
                                 <a href="" class="flex flex-col">
                                     <p class="font-bold text-sm text-white">Courses</p>
@@ -60,7 +60,7 @@
                             class="flex justify-between items-center rounded-2xl p-[12px_16px] border border-[#414141] hover:bg-[#2A2A2A] transition-all duration-300">
                             <div class="flex items-center">
                                 <a href="" class="w-[58px] h-[58px] flex shrink-0 items-center">
-                                    <img src="assets/images/icons/book.svg" alt="icon">
+                                    <img src="{{ asset('assets/images/icons/book.svg') }}" alt="icon">
                                 </a>
                                 <a href="" class="flex flex-col">
                                     <p class="font-bold text-sm text-white">Ebooks</p>
@@ -72,7 +72,7 @@
                             class="flex justify-between items-center rounded-2xl p-[12px_16px] border border-[#414141] hover:bg-[#2A2A2A] transition-all duration-300">
                             <div class="flex items-center">
                                 <a href="" class="w-[58px] h-[58px] flex shrink-0 items-center">
-                                    <img src="assets/images/icons/pen.svg" alt="icon">
+                                    <img src="{{ asset('assets/images/icons/pen.svg') }}" alt="icon">
                                 </a>
                                 <a href="" class="flex flex-col">
                                     <p class="font-bold text-sm text-white">Fonts</p>
@@ -129,13 +129,13 @@
         <ul
             class="flex flex-col items-start gap-6 p-4 bg-[#00000010] backdrop-blur-lg border-t border-belibang-dark-grey">
             <li class="text-belibang-grey hover:text-belibang-light-grey transition-all duration-300">
-                <a href="index.html">Home</a>
+                <a href="{{ route('homePage') }}">Home</a>
             </li>
             <li class="text-belibang-grey hover:text-belibang-light-grey transition-all duration-300 relative">
                 <button id="menu-button" class="flex items-center gap-1 focus:text-belibang-light-grey"
                     @click="dropdown = !dropdown">
                     <span>Categories</span>
-                    <img src="assets/images/icons/arrow-down.svg" alt="icon">
+                    <img src="{{ asset('assets/images/icons/arrow-down.svg') }}" alt="icon">
                 </button>
                 <div x-show="dropdown" x-transition
                     class="dropdown-menu mt-2 grid grid-cols-2 p-4 gap-[10px] w-full rounded-[20px] bg-[#1E1E1E] border border-[#414141] z-10">
@@ -143,7 +143,7 @@
                         class="col-span-2 flex justify-between items-center rounded-2xl p-[12px_16px] border border-[#414141] hover:bg-[#2A2A2A] transition-all duration-300">
                         <div class="flex items-center">
                             <a href="" class="w-[58px] h-[58px] flex shrink-0 items-center">
-                                <img src="assets/images/icons/cart.svg" alt="icon">
+                                <img src="{{ asset('assets/images/icons/cart.svg') }}" alt="icon">
                             </a>
                             <a href="" class="flex flex-col">
                                 <p class="font-bold text-sm text-white">All Products</p>
@@ -151,14 +151,14 @@
                             </a>
                         </div>
                         <div class="w-6 h-6 flex shrink-0">
-                            <img src="assets/images/icons/crown.svg" alt="icon">
+                            <img src="{{ asset('assets/images/icons/crown.svg') }}" alt="icon">
                         </div>
                     </div>
                     <div
                         class="flex justify-between items-center rounded-2xl p-[12px_16px] border border-[#414141] hover:bg-[#2A2A2A] transition-all duration-300">
                         <div class="flex items-center">
                             <a href="" class="w-[58px] h-[58px] flex shrink-0 items-center">
-                                <img src="assets/images/icons/laptop.svg" alt="icon">
+                                <img src="{{ asset('assets/images/icons/laptop.svg') }}" alt="icon">
                             </a>
                             <a href="" class="flex flex-col">
                                 <p class="font-bold text-sm text-white">Templates</p>
@@ -170,7 +170,7 @@
                         class="flex justify-between items-center rounded-2xl p-[12px_16px] border border-[#414141] hover:bg-[#2A2A2A] transition-all duration-300">
                         <div class="flex items-center">
                             <a href="" class="w-[58px] h-[58px] flex shrink-0 items-center">
-                                <img src="assets/images/icons/hat.svg" alt="icon">
+                                <img src="{{ asset('assets/images/icons/hat.svg') }}" alt="icon">
                             </a>
                             <a href="" class="flex flex-col">
                                 <p class="font-bold text-sm text-white">Courses</p>
@@ -182,7 +182,7 @@
                         class="flex justify-between items-center rounded-2xl p-[12px_16px] border border-[#414141] hover:bg-[#2A2A2A] transition-all duration-300">
                         <div class="flex items-center">
                             <a href="" class="w-[58px] h-[58px] flex shrink-0 items-center">
-                                <img src="assets/images/icons/book.svg" alt="icon">
+                                <img src="{{ asset('assets/images/icons/book.svg') }}" alt="icon">
                             </a>
                             <a href="" class="flex flex-col">
                                 <p class="font-bold text-sm text-white">Ebooks</p>
@@ -194,7 +194,7 @@
                         class="flex justify-between items-center rounded-2xl p-[12px_16px] border border-[#414141] hover:bg-[#2A2A2A] transition-all duration-300">
                         <div class="flex items-center">
                             <a href="" class="w-[58px] h-[58px] flex shrink-0 items-center">
-                                <img src="assets/images/icons/pen.svg" alt="icon">
+                                <img src="{{ asset('assets/images/icons/pen.svg') }}" alt="icon">
                             </a>
                             <a href="" class="flex flex-col">
                                 <p class="font-bold text-sm text-white">Fonts</p>

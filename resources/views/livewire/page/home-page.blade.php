@@ -1,7 +1,7 @@
 <div x-data="{ open: false }">
     @include('includes.header')
 
-    <section id="Category" class="container max-w-[1130px] mx-auto mb-[102px] flex flex-col gap-8">
+    <section id="Category" class="container max-w-[1130px] mx-auto mb-[102px]">
         <h2 class="font-semibold text-[32px]">Category</h2>
         <div class="category-carousel carousel">
             <div
@@ -85,140 +85,53 @@
     <section id="NewProduct" class="container max-w-[1130px] mx-auto mb-[102px] flex flex-col gap-8">
         <h2 class="font-semibold text-[32px]">New Product</h2>
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-[22px]">
-            <div class="product-card flex flex-col rounded-[18px] bg-[#181818] overflow-hidden">
-                <a href="details.html" class="thumbnail w-full h-[180px] flex shrink-0 overflow-hidden relative">
-                    <img src="{{ asset('assets/images/thumbnails/img1.png') }}" class="w-full h-full object-cover"
-                        alt="thumbnail">
-                    <p class="backdrop-blur bg-black/30 rounded-[4px] p-[4px_8px] absolute top-3 right-[14px]">Rp
-                        129,000</p>
-                </a>
-                <div class="p-[10px_14px_12px] h-full flex flex-col justify-between gap-[14px]">
-                    <div class="flex flex-col gap-1">
-                        <a href="details.html" class="font-semibold line-clamp-2 hover:line-clamp-none">SaaS Website
-                            Master Template: Streamline Your Digital Solution</a>
-                        <p
-                            class="bg-[#2A2A2A] font-semibold text-xs text-belibang-grey rounded-[4px] p-[4px_6px] w-fit">
-                            Template</p>
-                    </div>
-                    <div class="flex items-center gap-[6px]">
-                        <div class="w-6 h-6 flex shrink-0 items-center justify-center rounded-full overflow-hidden">
-                            <img src="{{ asset('assets/images/logos/framer.png') }}" class="w-full h-full object-cover"
-                                alt="logo">
+            @foreach ($products as $item)
+                <div class="product-card flex flex-col rounded-[18px] bg-[#181818] overflow-hidden">
+                    <a wire:navigate href="{{ route('detailPage', $item->slug) }}"
+                        class="thumbnail w-full h-[180px] flex shrink-0 overflow-hidden relative">
+                        <img src="{{ Storage::url($item->thumbnail) }}" class="w-full h-full object-cover"
+                            alt="thumbnail">
+                        <p class="backdrop-blur bg-black/30 rounded-[4px] p-[4px_8px] absolute top-3 right-[14px]">
+                            {{ $item->priced }}
+                        </p>
+                    </a>
+                    <div class="p-[10px_14px_12px] h-full flex flex-col justify-between gap-[14px]">
+                        <div class="flex flex-col gap-1 ">
+                            <p
+                                class="bg-[#2A2A2A] font-semibold text-xs text-belibang-grey rounded-[4px] p-[4px_6px] w-fit py-2">
+                                {{ Str::limit($item->category->name, 50, '...') }}
+                            </p>
+
+                            <a wire:navigate href="{{ route('detailPage', $item->slug) }}"
+                                class="font-semibold line-clamp-2 hover:line-clamp-none py-2">
+                                {{ $item->name }}
+                            </a>
+
                         </div>
-                        <a href="" class="font-semibold text-xs text-belibang-grey">Framer</a>
+                        {{-- <div class="flex items-center gap-[6px]">
+                            <div class="w-6 h-6 flex shrink-0 items-center justify-center rounded-full overflow-hidden">
+                                <img src="{{ asset('assets/images/logos/framer.png') }}"
+                                    class="w-full h-full object-cover" alt="logo">
+                            </div>
+                            <a href="" class="font-semibold text-xs text-belibang-grey">Framer</a>
+                        </div> --}}
                     </div>
                 </div>
-            </div>
-            <div class="product-card flex flex-col rounded-[18px] bg-[#181818] overflow-hidden">
-                <a href="details.html" class="thumbnail w-full h-[180px] flex shrink-0 overflow-hidden relative">
-                    <img src="{{ asset('assets/images/thumbnails/img2.png') }}" class="w-full h-full object-cover"
-                        alt="thumbnail">
-                    <p class="backdrop-blur bg-black/30 rounded-[4px] p-[4px_8px] absolute top-3 right-[14px]">Rp
-                        700,000</p>
-                </a>
-                <div class="p-[10px_14px_12px] h-full flex flex-col justify-between gap-[14px]">
-                    <div class="flex flex-col gap-1">
-                        <a href="details.html" class="font-semibold line-clamp-2 hover:line-clamp-none">SaaS Website
-                            Master Template: Streamline Your Digital Solution</a>
-                        <p
-                            class="bg-[#2A2A2A] font-semibold text-xs text-belibang-grey rounded-[4px] p-[4px_6px] w-fit">
-                            Template</p>
-                    </div>
-                    <div class="flex items-center gap-[6px]">
-                        <div class="w-6 h-6 flex shrink-0 items-center justify-center rounded-full overflow-hidden">
-                            <img src="{{ asset('assets/images/logos/framer.png') }}" class="w-full h-full object-cover"
-                                alt="logo">
-                        </div>
-                        <a href="" class="font-semibold text-xs text-belibang-grey">Framer</a>
-                    </div>
-                </div>
-            </div>
-            <div class="product-card flex flex-col rounded-[18px] bg-[#181818] overflow-hidden">
-                <a href="details.html" class="thumbnail w-full h-[180px] flex shrink-0 overflow-hidden relative">
-                    <img src="{{ asset('assets/images/thumbnails/img3.png') }}" class="w-full h-full object-cover"
-                        alt="thumbnail">
-                    <p class="backdrop-blur bg-black/30 rounded-[4px] p-[4px_8px] absolute top-3 right-[14px]">Rp
-                        89,000</p>
-                </a>
-                <div class="p-[10px_14px_12px] h-full flex flex-col justify-between gap-[14px]">
-                    <div class="flex flex-col gap-1">
-                        <a href="details.html" class="font-semibold line-clamp-2 hover:line-clamp-none">SaaS Website
-                            Essentials Your Blueprint to Success Online</a>
-                        <p
-                            class="bg-[#2A2A2A] font-semibold text-xs text-belibang-grey rounded-[4px] p-[4px_6px] w-fit">
-                            Template</p>
-                    </div>
-                    <div class="flex items-center gap-[6px]">
-                        <div class="w-6 h-6 flex shrink-0 items-center justify-center rounded-full overflow-hidden">
-                            <img src="{{ asset('assets/images/logos/framer.png') }}"
-                                class="w-full h-full object-cover" alt="logo">
-                        </div>
-                        <a href="" class="font-semibold text-xs text-belibang-grey">Framer</a>
-                    </div>
-                </div>
-            </div>
-            <div class="product-card flex flex-col rounded-[18px] bg-[#181818] overflow-hidden">
-                <a href="details.html" class="thumbnail w-full h-[180px] flex shrink-0 overflow-hidden relative">
-                    <img src="{{ asset('assets/images/thumbnails/img4.png') }}" class="w-full h-full object-cover"
-                        alt="thumbnail">
-                    <p class="backdrop-blur bg-black/30 rounded-[4px] p-[4px_8px] absolute top-3 right-[14px]">Rp
-                        250,000</p>
-                </a>
-                <div class="p-[10px_14px_12px] h-full flex flex-col justify-between gap-[14px]">
-                    <div class="flex flex-col gap-1">
-                        <a href="details.html" class="font-semibold line-clamp-2 hover:line-clamp-none">Vitalize -
-                            Healthcare App UI Kit</a>
-                        <p
-                            class="bg-[#2A2A2A] font-semibold text-xs text-belibang-grey rounded-[4px] p-[4px_6px] w-fit">
-                            Ebook</p>
-                    </div>
-                    <div class="flex items-center gap-[6px]">
-                        <div class="w-6 h-6 flex shrink-0 items-center justify-center rounded-full overflow-hidden">
-                            <img src="{{ asset('assets/images/logos/vekotora.svg') }}"
-                                class="w-full h-full object-cover" alt="logo">
-                        </div>
-                        <a href="" class="font-semibold text-xs text-belibang-grey">Vektora Studio</a>
-                    </div>
-                </div>
-            </div>
-            <div class="product-card flex flex-col rounded-[18px] bg-[#181818] overflow-hidden">
-                <a href="details.html" class="thumbnail w-full h-[180px] flex shrink-0 overflow-hidden relative">
-                    <img src="{{ asset('assets/images/thumbnails/img5.png') }}" class="w-full h-full object-cover"
-                        alt="thumbnail">
-                    <p class="backdrop-blur bg-black/30 rounded-[4px] p-[4px_8px] absolute top-3 right-[14px]">Rp
-                        88,000</p>
-                </a>
-                <div class="p-[10px_14px_12px] h-full flex flex-col justify-between gap-[14px]">
-                    <div class="flex flex-col gap-1">
-                        <a href="details.html" class="font-semibold line-clamp-2 hover:line-clamp-none">WYR™ - Fintech
-                            Design System</a>
-                        <p
-                            class="bg-[#2A2A2A] font-semibold text-xs text-belibang-grey rounded-[4px] p-[4px_6px] w-fit">
-                            Course</p>
-                    </div>
-                    <div class="flex items-center gap-[6px]">
-                        <div class="w-6 h-6 flex shrink-0 items-center justify-center rounded-full overflow-hidden">
-                            <img src="{{ asset('assets/images/logos/strangehelix.svg') }}"
-                                class="w-full h-full object-cover" alt="logo">
-                        </div>
-                        <a href="" class="font-semibold text-xs text-belibang-grey">strangehelix.bio</a>
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
     </section>
 
     <section id="Testimonial" class="mb-[102px] flex flex-col gap-8">
         <div class="container max-w-[1130px] mx-auto flex justify-between items-center">
             <h2 class="font-semibold text-[32px]">Customers Are Happy <br>With Our Products</h2>
-            {{-- <div class="flex gap-[14px] items-center">
+            <div class="flex gap-[14px] items-center">
                 <button class="btn-prev w-10 h-10 shrink-0 rounded-full overflow-hidden rotate-180">
                     <img src="assets/images/icons/circle-arrow-r.svg" alt="icon">
                 </button>
                 <button class="btn-next w-10 h-10 shrink-0 rounded-full overflow-hidden">
                     <img src="assets/images/icons/circle-arrow-r.svg" alt="icon">
                 </button>
-            </div> --}}
+            </div>
         </div>
         <div class="w-full overflow-x-hidden no-scrollbar">
             <div class="testi-carousel" data-flickity>

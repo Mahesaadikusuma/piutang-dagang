@@ -31,8 +31,8 @@ class ProductList extends Component
     #[On('product-deleted')] 
     public function render()
     {
-        $heads = ['No','Name','Category','Description', 'Thumbnail', 'Stock', 'Price'];
-        $products = $this->productRepository->getProducts($this->search, $this->limit);
+        $heads = ['No','Name','Category','Description', 'Thumbnail', 'Stock', 'Price', 'created_at'];
+        $products = $this->productRepository->getPaginatedProducts($this->search, $this->limit);
 
         return view('livewire.admin.product.product-list', [
             'heads' => $heads,

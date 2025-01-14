@@ -20,8 +20,8 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', HomePage::class)->name('homePage');
-Route::get('/detail', DetailPage::class)->name('detailPage');
-Route::get('/checkout', CheckoutPage::class)->name('checkoutPage');
+Route::get('/detail/{product:slug}', DetailPage::class)->name('detailPage');
+Route::get('/checkout/{product:slug}', CheckoutPage::class)->name('checkoutPage');
 
 Route::get('/success', Success::class)->name('success');
 

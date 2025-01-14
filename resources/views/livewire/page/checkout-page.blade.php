@@ -6,7 +6,7 @@
                 <h1 class="font-semibold text-[32px]">Checkout Product</h1>
                 <div class="product-detail flex flex-col gap-3">
                     <div class="thumbnail w-full lg:w-[412px] h-[255px] flex shrink-0 rounded-[20px] overflow-hidden">
-                        <img src="assets/images/thumbnails/checkout.png" class="w-full h-full object-cover"
+                        <img src="{{ Storage::url($product->thumbnail) }}" class="w-full h-full object-cover"
                             alt="thumbnail">
                     </div>
                     <div class="product-title flex flex-col gap-[30px]">
@@ -19,15 +19,9 @@
                             </p>
                         </div>
                         <div class="flex justify-between items-center">
-                            <div class="flex items-center gap-2">
-                                <div class="w-8 h-8 rounded-full flex shrink-0 overflow-hidden">
-                                    <img src="assets/images/icons/ydntkwia.svg" alt="logo">
-                                </div>
-                                <p class="font-semibold text-belibang-grey">YDNTKWIA</p>
-                            </div>
                             <p
                                 class="font-semibold text-4xl bg-clip-text text-transparent bg-gradient-to-r from-[#B05CB0] to-[#FCB16B]">
-                                Rp 6,288,000
+                                {{ $product->priced }}
                             </p>
                         </div>
                     </div>
