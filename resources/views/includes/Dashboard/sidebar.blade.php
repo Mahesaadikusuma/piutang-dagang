@@ -5,9 +5,11 @@
         request()->routeIs('authentication.users.index');
     $isOverview = request()->routeIs('dashboard');
     $isSales = request()->routeIs('productList') || request()->routeIs('categoryList');
+
+    $isTransaction = request()->routeIs('transaction.index');
 @endphp
 
-<aside x-data="{ openPages: false, openAuth: false, openSales: false }"
+<aside x-data="{ openPages: false, openAuth: false, openSales: false, openTransaction: false }"
     :class="{ '-translate-x-full': !isSidebarOpen && isMobile, 'translate-x-0': isSidebarOpen || !isMobile }"
     class="fixed top-0 left-0 z-40 w-64 h-screen pt-14 transition-transform bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700">
     <div class="overflow-y-auto py-5 px-3 h-full bg-white dark:bg-gray-800">
@@ -67,6 +69,44 @@
                         </x-sidebar-link>
                     </li>
 
+                </ul>
+            </li>
+
+            <li>
+                <button type="button" @click="openTransaction = !openTransaction"
+                    class="flex items-center p-2 w-full text-base font-medium rounded-lg transition duration-75 group 
+                        {{ $isTransaction ? 'dark:text-white hover:bg-blue-600 dark:hover:bg-gray-700 bg-blue-500 text-white' : 'text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700' }}">
+                    <svg aria-hidden="true"
+                        class="w-6 h-6 transition duration-75  dark:group-hover:text-white
+                            {{ $isTransaction ? 'text-gray-100 dark:text-white' : 'text-gray-500 dark:text-gray-400 group-hover:text-gray-500' }}"
+                        fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                            d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="flex-1 ml-3 text-left">Transactions</span>
+                    <svg x-show="!openTransaction"
+                        class="w-6 h-6 {{ $isTransaction ? 'text-gray-100 dark:text-white' : 'text-gray-800 dark:text-white' }}w-6 h-6  transition-transform"
+                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                        viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M7.119 8h9.762a1 1 0 0 1 .772 1.636l-4.881 5.927a1 1 0 0 1-1.544 0l-4.88-5.927A1 1 0 0 1 7.118 8Z" />
+                    </svg>
+                    <svg x-show="openTransaction"
+                        class="{{ $isTransaction ? 'text-gray-100 dark:text-white' : 'text-gray-800 dark:text-white' }}w-6 h-6  transition-transform"
+                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                        viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M16.881 16H7.119a1 1 0 0 1-.772-1.636l4.881-5.927a1 1 0 0 1 1.544 0l4.88 5.927a1 1 0 0 1-.77 1.636Z" />
+                    </svg>
+                </button>
+                <ul x-show="openTransaction" class="py-2 space-y-2 pl-11 transition-all duration-300 ease-in-out"
+                    x-cloak>
+                    <li>
+                        <x-sidebar-link href="{{ route('transaction.index') }}" :active="request()->routeIs('transaction.index')">
+                            Transaction List
+                        </x-sidebar-link>
+                    </li>
                 </ul>
             </li>
 

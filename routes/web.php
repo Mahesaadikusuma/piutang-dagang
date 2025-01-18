@@ -9,6 +9,7 @@ use App\Livewire\Admin\Product\ProductEdit;
 use App\Livewire\Admin\Product\ProductList;
 use App\Livewire\Admin\Roles\Index as RolesController;
 use App\Livewire\Admin\Setting as AdminSetting;
+use App\Livewire\Admin\Transaction\TransactionList;
 use App\Livewire\Admin\User\UserList;
 use App\Livewire\Dashboard\Setting;
 use App\Livewire\HomePage;
@@ -23,7 +24,7 @@ Route::get('/', HomePage::class)->name('homePage');
 Route::get('/detail/{product:slug}', DetailPage::class)->name('detailPage');
 Route::get('/checkout/{product:slug}', CheckoutPage::class)->name('checkoutPage');
 
-Route::get('/success', Success::class)->name('success');
+Route::get('/success/{product:slug}', Success::class)->name('success');
 
 Route::prefix('admin')->group(function () {
     Route::get('/dashboard', function () {
@@ -43,6 +44,11 @@ Route::prefix('admin')->group(function () {
             Route::get('/', UserList::class)->name('index');
         });
     });
+
+    Route::group(['prefix' => 'transaction', 'as' => 'transaction.'], function(){
+       Route::get('/', TransactionList::class)->name('index');
+    });
+
     Route::get('/product', ProductList::class)->name('productList');
     Route::get('/category', CategoryList::class)->name('categoryList');
 

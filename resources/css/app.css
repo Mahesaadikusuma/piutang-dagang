@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+/* input type date */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    /* display: none; */
+    /* background: transparent; */
+    background-color: white;
+}
+
 @layer utilities {
     /* Used For Chrome, Opera and Safari */
     .no-scrollbar::-webkit-scrollbar {

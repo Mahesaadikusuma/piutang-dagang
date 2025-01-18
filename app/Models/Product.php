@@ -42,15 +42,15 @@ class Product extends Model
         });
     }
 
-    // public function getPricedAttribute()
-    // {
-    //     return 'Rp. ' . number_format($this->price, 0, ',', '.');
-    // }
+    public function getPricedAttribute()
+    {
+        return 'Rp. ' . number_format($this->price, 0, ',', '.');
+    }
 
     protected function price(): Attribute
     {
         return Attribute::make(
-            get: fn($value) => 'Rp. ' . number_format($value, 0, ',', '.'),
+            // get: fn($value) => 'Rp. ' . number_format($value, 0, ',', '.'),
             set: fn($value) => (int) preg_replace('/[^\d]/', '', $value)
         );
     }
@@ -58,7 +58,7 @@ class Product extends Model
     protected function stock(): Attribute
     {
         return Attribute::make(
-            get: fn($value) => number_format($value, 0, ',', '.'),
+            // get: fn($value) => number_format($value, 0, ',', '.'),
             set: fn($value) => (int) preg_replace('/[^\d]/', '', $value)
         );
     }

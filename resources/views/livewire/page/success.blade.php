@@ -6,7 +6,7 @@
                     <div class="flex shrink-0 w-[174px] h-[174px] relative -z-10">
                         <img src="{{ asset('assets/images/icons/check-3d.svg') }}" alt="icon">
                         <div class="flex shrink-0 w-[644px] absolute -translate-x-1/2 left-1/2 bottom-[35px] z-0">
-                            <img src="assets/images/backgrounds/glitter.svg" alt="background">
+                            <img src="{{ asset('assets/images/backgrounds/glitter.svg') }}" alt="background">
                         </div>
                     </div>
                     <div class="flex flex-col text-center gap-1">

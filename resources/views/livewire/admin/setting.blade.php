@@ -1,6 +1,4 @@
 <div x-data="{ openTab: 'profile' }">
-
-
     <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
         <h1 class="text-gray-800 font-bold text-xl">Setting User</h1>
         <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
