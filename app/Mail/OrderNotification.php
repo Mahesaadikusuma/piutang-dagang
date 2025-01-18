@@ -14,15 +14,13 @@ class OrderNotification extends Mailable
     use Queueable, SerializesModels;
 
     private $transaction;
-    private $Ordermessage;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($transaction, $Ordermessage)
+    public function __construct($transaction)
     {
         $this->transaction = $transaction;
-        $this->Ordermessage = $Ordermessage;
     }
 
     /**
@@ -43,8 +41,7 @@ class OrderNotification extends Mailable
         return new Content(
             view: 'emails.order-notification',
             with: [
-                'transaction' => $this->transaction, // Harus objek Transaction
-                'message' => $this->Ordermessage, // Harus string
+                'transaction' => $this->transaction
             ]
         );
     }

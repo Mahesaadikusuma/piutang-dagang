@@ -3,6 +3,7 @@
 namespace App\Livewire\Page;
 
 use App\Events\OrderStatusUpdated;
+use App\Jobs\SendCheckoutEmail;
 use App\Models\Product;
 use App\Models\Transaction;
 use App\Models\User;
@@ -100,9 +101,9 @@ class CheckoutPage extends Component
                 'akhir_jatuh_tempo' => $this->end_at,
                 'status' => 'pending',
             ]); 
-            $this->product->decrement('stock', $this->qty);
-            $message = "Pembayaran berhasil dengan status: " . ($transaction->status ?? 'tidak diketahui') . ".";
-            event(new OrderStatusUpdated($transaction, $message));
+            $this->product->decrement('stock', $this->qty);        
+            event(new OrderStatusUpdated($transaction));
+            // dispatch(new SendCheckoutEmail($transaction));
             return $this->redirect("/success/{$transaction->product->slug}", navigate:true);
         } catch (\Exception $th) {
             $this->showError = true;

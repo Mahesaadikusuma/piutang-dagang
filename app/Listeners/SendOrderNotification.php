@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\OrderStatusUpdated;
+use App\Jobs\SendCheckoutEmail;
 use App\Mail\OrderNotification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -24,12 +25,9 @@ class SendOrderNotification
      */
     public function handle(OrderStatusUpdated $event): void 
     {
-        // Log::info('Transaction:', $event->transaction);
-        // Log::info('Message received in listener:', ['message' => $event->message]);
-        $message = $event->message;
-        Log::info($message);
-        Mail::to($event->transaction->user->email)->send(
-            new OrderNotification($event->transaction, $message)
-        );
+        SendCheckoutEmail::dispatch($event->transaction);
+        // Mail::to($event->transaction->user->email)->send(
+        //     new OrderNotification($event->transaction)
+        // )->queue(new SendCheckoutEmail($event->transaction));
     }
 }

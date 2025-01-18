@@ -16,14 +16,12 @@ class OrderStatusUpdated
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $transaction;
-    public $message;
     /**
      * Create a new event instance.
      */
-    public function __construct(Transaction $transaction, $message)
+    public function __construct(Transaction $transaction)
     {
         $this->transaction = $transaction;
-        $this->message = $message;
     }
 
     /**
