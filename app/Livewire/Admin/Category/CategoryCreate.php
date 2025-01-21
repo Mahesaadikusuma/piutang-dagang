@@ -25,7 +25,7 @@ class CategoryCreate extends Component
     #[Validate('required|string|min:5|max:255',  message: 'Name Product harus di isi', translate: true)]
     public $name;
 
-    #[Validate('required|image|mimes:jpg,jpeg,png|max:2048',  message: 'Thumbnail Harus di isi', translate: true)]
+    #[Validate('required|image|mimes:jpg,jpeg,png,svg|max:2048',  message: 'Thumbnail Harus di isi', translate: true)]
     public $thumbnail;
 
 

@@ -9,6 +9,7 @@ use App\Livewire\Admin\Product\ProductEdit;
 use App\Livewire\Admin\Product\ProductList;
 use App\Livewire\Admin\Roles\Index as RolesController;
 use App\Livewire\Admin\Setting as AdminSetting;
+use App\Livewire\Admin\Transaction\HistoryList;
 use App\Livewire\Admin\Transaction\TransactionList;
 use App\Livewire\Admin\User\UserList;
 use App\Livewire\Dashboard\Setting;
@@ -47,6 +48,7 @@ Route::prefix('admin')->group(function () {
 
     Route::group(['prefix' => 'transaction', 'as' => 'transaction.'], function(){
        Route::get('/', TransactionList::class)->name('index');
+       Route::get('/history/user', HistoryList::class)->name('historyUser');
     });
 
     Route::get('/product', ProductList::class)->name('productList');

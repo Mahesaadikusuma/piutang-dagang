@@ -4,6 +4,8 @@ namespace App\Livewire\Page;
 
 use App\Events\OrderStatusUpdated;
 use App\Jobs\SendCheckoutEmail;
+use App\Models\Cicilan;
+use App\Models\Piutang;
 use App\Models\Product;
 use App\Models\Transaction;
 use App\Models\User;
@@ -29,7 +31,7 @@ class CheckoutPage extends Component
     public float $total;
     public float $tax = 0.11;
 
-    public $setCicilan = '2';
+    public $setCicilan = '2'; // Default cicilan
     public $start_at;
     public $end_at;
 
@@ -60,13 +62,11 @@ class CheckoutPage extends Component
         if ($type === 'cicilan' && $this->qty <= 5) {
             $this->showError = true;
             session()->flash('error', 'Cicilan hanya tersedia untuk jumlah lebih dari 5.');
-            $this->render();
             return;
         }
         $this->paymentType = $type;
         session()->forget('error');
     }
-
 
     public function checkout()
     {
@@ -85,7 +85,7 @@ class CheckoutPage extends Component
                 $this->end_at = null;
                 $this->setCicilan = null;
             }
-            
+
             $invoice = "JSX-" . rand(0000, 9999);
             
             // Simpan transaksi
@@ -96,14 +96,59 @@ class CheckoutPage extends Component
                 'kode_unik' => $invoice,
                 'jenis_pembayaran' => $this->paymentType,
                 'qty' => $this->qty,
-                'cicilan' => $this->setCicilan,
-                'awal_tempo' => $this->start_at,
-                'akhir_jatuh_tempo' => $this->end_at,
+                'cicilan' => $this->setCicilan ?? null,
+                'awal_tempo' => $this->start_at ?? null,
+                'akhir_jatuh_tempo' => $this->end_at ?? null,
                 'status' => 'pending',
-            ]); 
+            ]);
+
+            if ($this->paymentType === 'cicilan') {
+                $piutang = Piutang::create([
+                    'transaction_id' => $transaction->id,
+                    'product_id' => $this->product->id,
+                    'cicilan' => $this->setCicilan ?? null,
+                    'awal_tempo' => $this->start_at ?? null,
+                    'akhir_jatuh_tempo' => $this->end_at ?? null,
+                    'jumlah_piutang' => $this->total,
+                    'status' => 'pending',
+                ]);
+
+                // Calculate cicilan (installments)
+                $installmentAmount = $this->total / (int)$this->setCicilan;
+                $installmentInterval = Carbon::parse($this->start_at);
+
+                // for ($i = 1; $i <= $this->setCicilan; $i++) {
+                //     Cicilan::create([
+                //         'piutang_id' => $piutang->id,
+                //         'nomor_cicilan' => $i,
+                //         'awal_tempo' => $i === 1 ? $this->start_at : $installmentInterval->format('Y-m-d'),
+                //         'akhir_jatuh_tempo' => $installmentInterval->addMonth()->format('Y-m-d'),
+                //         'jumlah_cicilan' => $installmentAmount,
+                //         'status_pembayaran' => 'pending',
+                //     ]);
+                // }
+
+                $installments = collect(range(1, (int)$this->setCicilan))->map(function ($i) use ($piutang, $installmentAmount, $installmentInterval) {
+                    $currentTime = Carbon::now();
+                    return [
+                        'piutang_id' => $piutang->id,
+                        'nomor_cicilan' => $i,
+                        'awal_tempo' => $i === 1 ? $this->start_at : $installmentInterval->format('Y-m-d'),
+                        'akhir_jatuh_tempo' => $installmentInterval->addMonth()->format('Y-m-d'),
+                        'jumlah_cicilan' => $installmentAmount,
+                        'status_pembayaran' => 'pending',
+                        'created_at' => $currentTime,  // Manually set created_at
+                        'updated_at' => $currentTime,
+                    ];
+                });
+                Log::info($installments->toArray());
+                // Insert cicilan records in bulk
+                Cicilan::insert($installments->toArray());
+            }
+
             $this->product->decrement('stock', $this->qty);        
             event(new OrderStatusUpdated($transaction));
-            // dispatch(new SendCheckoutEmail($transaction));
+
             return $this->redirect("/success/{$transaction->product->slug}", navigate:true);
         } catch (\Exception $th) {
             $this->showError = true;
@@ -118,6 +163,11 @@ class CheckoutPage extends Component
             $this->qty++;
             $this->calculatePrice();
             $this->showError = false;
+
+            if ($this->qty > 5 && $this->paymentType !== 'cicilan') {
+                $this->paymentType = 'cicilan';
+                $this->setPaymentType('cicilan');
+            }
         } else {
             session()->flash('error', 'Jumlah produk melebihi stok tersedia.');
             $this->showError = true;
@@ -130,6 +180,11 @@ class CheckoutPage extends Component
             $this->qty--;
             $this->calculatePrice();
             $this->showError = false;
+
+            if ($this->qty <= 5 && $this->paymentType !== 'tunai') {
+            $this->paymentType = 'tunai';
+            $this->setPaymentType('tunai');
+        }
         }
     }
 

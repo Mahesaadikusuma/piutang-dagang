@@ -38,6 +38,7 @@ class ProductDelete extends Component
         try {
             $this->productRepository->deleteProduct($this->product);
             Toaster::success('Produk berhasil dihapus!');
+            $this->showModal = false;
             // return $this->redirect('/admin/product', navigate:true);
             $this->dispatch("product-deleted"); 
         } catch (\Exception $e) {

@@ -30,13 +30,13 @@ class ProductCreate extends Component
     #[Validate("required|string|min:5")]
     public $description;
 
-    #[Validate("required|image|mimes:jpeg,png,jpg|max:3048")]
+    #[Validate("required|image|mimes:jpeg,png,jpg,svg|max:3048")]
     public $thumbnail;
     
-    #[Validate("required|integer")]
+    #[Validate("required")]
     public $price;
 
-    #[Validate("required|integer")]
+    #[Validate("required")]
     public $stock;
 
     protected $productRepository;

@@ -40,7 +40,7 @@
                             <div class="flex flex-col gap-3">
                                 <p
                                     class="font-semibold text-4xl bg-clip-text text-transparent bg-gradient-to-r from-[#B05CB0] to-[#FCB16B]">
-                                    {{ $product->price }}
+                                    {{ $product->priced }}
                                 </p>
                                 {{-- <div class="flex flex-col gap-[10px]">
                                     <div class="flex items-center gap-[10px]">

@@ -41,10 +41,10 @@ class ProductEdit extends Component
     #[Validate("nullable|image|mimes:jpeg,png,jpg|max:3048")]
     public $thumbnail;
     
-    #[Validate("required|numeric")]
+    #[Validate("required")]
     public $price;
 
-    #[Validate("required|numeric")]
+    #[Validate("required")]
     public $stock;
 
     

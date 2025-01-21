@@ -1,5 +1,6 @@
 <div>
     <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
+        <h1 class="font-bold my-5">Transaction All Data</h1>
         <x-table :heads="$heads">
             <x-slot name="search">
                 <form class="flex items-center">
@@ -33,15 +34,15 @@
                     <td class="px-4 py-3">{{ $transaction->qty }}</td>
                     <td class="px-4 py-3">{{ $transaction->jenis_pembayaran }}</td>
                     <td class="px-4 py-3">{{ $transaction->PriceTotal }}</td>
-                    <td class="px-4 py-3">{{ $transaction->cicilan ?? '-' }}</td>
+                    {{-- <td class="px-4 py-3">{{ $transaction->cicilan ?? '-' }}</td>
                     <td class="px-4 py-3">{{ $transaction->awal_tempo?->translatedFormat('l d Y') ?? '-' }}</td>
 
                     <td class="px-4 py-3">
                         {{ $transaction->akhir_jatuh_tempo ? $transaction->akhir_jatuh_tempo->translatedFormat('l d Y') : '-' }}
-                    </td>
+                    </td> --}}
                     <td class="px-4 py-3">{{ $transaction->status }}</td>
 
-                    <td class="px-4 py-3">{{ $transaction->created_at->diffForHumans() }}</td>
+                    <td class="px-4 py-3">{{ $transaction->created_at->format('d M Y') }}</td>
                     <td class="px-4 py-3">
                         <a href="" class="text-blue-600 hover:underline">
                             Edit

@@ -61,25 +61,25 @@ class Setting extends Component
         $this->address = $this->setting->address;
     }
 
-    #[Computed(cache: true)]
+    #[Computed()]
     public function provinces()
     {
         return Province::all();
     }
 
-    #[Computed(cache: true)]
+    #[Computed()]
     public function regencies()
     {
         return Regency::where('province_id', $this->provinceID)->get();
     }
 
-    #[Computed(cache: true)]
+    #[Computed()]
     public function districts()
     {
         return District::where('regency_id', $this->regencyID)->get();
     }
 
-    #[Computed(cache: true)]
+    #[Computed()]
     public function villages()
     {
         return Village::where('district_id', $this->districtID)->get();

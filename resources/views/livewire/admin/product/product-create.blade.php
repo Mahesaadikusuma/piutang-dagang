@@ -23,7 +23,7 @@
                     <label for="thumbnail"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Thumbnail</label>
                     <input type="file" wire:model.blur="thumbnail" name="thumbnail" id="thumbnail"
-                        accept="image/jpg, image/jpeg, image/png"
+                        accept="image/jpg, image/jpeg, image/png, image/svg"
                         class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" />
 
                     <div x-show="uploading" class="w-full bg-gray-200 rounded-full h-1.5 mb-4 dark:bg-gray-700">
@@ -63,9 +63,11 @@
                     <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                         Price
                     </label>
-                    <input wire:model.blur="price" type="number" name="price" id="price"
+                    <input x-mask:dynamic="$money($input)" type="text" inputmode="numeric" id="price"
+                        name="price" wire:model.lazy="price"
                         class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="Price Product" required="">
+                        placeholder="Enter price" required>
+
                     <span class="text-red-500 text-sm">
                         @error('price')
                             {{ $message }}
@@ -73,7 +75,8 @@
                     </span>
                 </div>
                 <div class="mb-5">
-                    <label for="stock" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    <label x-mask:dynamic="$money($input)" for="stock"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                         Stock
                     </label>
                     <input wire:model.blur="stock" type="number" min="1" name="stock" id="stock"

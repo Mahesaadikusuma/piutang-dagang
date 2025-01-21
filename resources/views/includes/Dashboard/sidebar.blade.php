@@ -6,7 +6,7 @@
     $isOverview = request()->routeIs('dashboard');
     $isSales = request()->routeIs('productList') || request()->routeIs('categoryList');
 
-    $isTransaction = request()->routeIs('transaction.index');
+    $isTransaction = request()->routeIs('transaction.index') || request()->routeIs('transaction.historyUser');
 @endphp
 
 <aside x-data="{ openPages: false, openAuth: false, openSales: false, openTransaction: false }"
@@ -105,6 +105,12 @@
                     <li>
                         <x-sidebar-link href="{{ route('transaction.index') }}" :active="request()->routeIs('transaction.index')">
                             Transaction List
+                        </x-sidebar-link>
+                    </li>
+
+                    <li>
+                        <x-sidebar-link href="{{ route('transaction.historyUser') }}" :active="request()->routeIs('transaction.historyUser')">
+                            History User
                         </x-sidebar-link>
                     </li>
                 </ul>

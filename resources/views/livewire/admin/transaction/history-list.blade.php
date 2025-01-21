@@ -1,5 +1,6 @@
 <div>
     <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
+        <h1 class="font-bold my-5">History Transaction : {{ Auth::User()->name }}</h1>
         <x-table :heads="$heads">
             <x-slot name="search">
                 <form class="flex items-center">
@@ -13,7 +14,7 @@
                                     clip-rule="evenodd" />
                             </svg>
                         </div>
-                        <input type="search" wire:model.live.debounce.500ms='search' id="simple-search"
+                        <input type="text" wire:model.lazy='search' id="simple-search"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             placeholder="Search">
                     </div>
@@ -21,46 +22,42 @@
             </x-slot>
 
             <x-slot name="actions">
-                <a href="{{ route('productCreate') }}"
-                    class="flex items-center justify-center text-gray-100 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-primary-800">Add
-                    Product
-                </a>
             </x-slot>
-
-            @forelse ($products as $product)
+            @forelse ($this->HistoryUser as $index => $historyUser)
                 <tr class="border-b dark:border-gray-700">
                     <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{ $loop->iteration }}
+                        {{ $index + $this->HistoryUser->firstItem() }}
                     </th>
-                    <td class="px-4 py-3">{{ $product->name }}</td>
-                    <td class="px-4 py-3">{{ $product->category->name }}</td>
-                    <td class="px-4 py-3">{{ Str::limit($product->description, 10) }}</td>
-                    <td class="px-4 py-3">
-                        <div class="">
-                            <img src="{{ Storage::url($product->thumbnail) }}" alt=""
-                                class="w-full h-16 object-cover">
-                        </div>
-                    </td>
+                    <td class="px-4 py-3">{{ $historyUser->kode_unik }}</td>
+                    <td class="px-4 py-3">{{ $historyUser->user->name }}</td>
+                    <td class="px-4 py-3">{{ Str::limit($historyUser->product->name, 30, '...') }}</td>
+                    <td class="px-4 py-3">{{ $historyUser->qty }}</td>
+                    <td class="px-4 py-3">{{ $historyUser->jenis_pembayaran }}</td>
+                    <td class="px-4 py-3">{{ $historyUser->PriceTotal }}</td>
+                    {{-- <td class="px-4 py-3">{{ $historyUser->cicilan ?? '-' }}</td>
+                    <td class="px-4 py-3">{{ $historyUser->awal_tempo?->translatedFormat('l d Y') ?? '-' }}</td>
 
-                    <td class="px-4 py-3">{{ $product->stocked }}</td>
-                    <td class="px-4 py-3">{{ $product->priced }}</td>
-                    <td class="px-4 py-3">{{ $product->created_at->diffForHumans() }}</td>
-                    <td>
-                        <div wire:ignore class="flex gap-3 items-center">
-                            <a href="{{ route('productEdit', $product->slug) }}"
-                                class="text-blue-600 hover:underline">Edit</a>
-                            <livewire:admin.product.product-delete lazy="on-load" :product="$product" :key="$product->id" />
-                        </div>
+                    <td class="px-4 py-3">
+                        {{ $historyUser->akhir_jatuh_tempo ? $historyUser->akhir_jatuh_tempo->translatedFormat('l d Y') : '-' }}
+                    </td> --}}
+                    <td class="px-4 py-3">{{ $historyUser->status }}</td>
+
+                    <td class="px-4 py-3">{{ $historyUser->created_at->format('d M Y') }}</td>
+                    <td class="px-4 py-3">
+                        <a href="" class="text-blue-600 hover:underline">
+                            Edit
+                        </a>
+
                     </td>
                 </tr>
             @empty
                 <tr class="border-b dark:border-gray-700">
-                    <td colspan="4" class="px-4 py-3 text-center">No products Found</td>
+                    <td colspan="4" class="px-4 py-3 text-center">No Users found</td>
                 </tr>
             @endforelse
 
             <x-slot name="pagination">
-                {{ $products->links() }}
+                {{ $this->HistoryUser->links(data: ['scrollTo' => false]) }}
             </x-slot>
         </x-table>
     </section>

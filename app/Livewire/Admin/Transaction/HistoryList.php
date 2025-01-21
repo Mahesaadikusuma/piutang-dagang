@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Transaction;
 
 use App\Repository\TransactionRepository;
+use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
@@ -11,7 +12,7 @@ use Livewire\WithPagination;
 
 #[Layout('layouts.dashboard')]
 #[Title('Transaction List')]
-class TransactionList extends Component
+class HistoryList extends Component
 {
     use WithPagination;
 
@@ -25,13 +26,17 @@ class TransactionList extends Component
         $this->transactionRepository = new TransactionRepository();
     }
 
+    #[Computed()]
+    public function HistoryUser()
+    {
+        return $this->transactionRepository->getHistoryByUser($this->search, $this->limit);
+    }
+
     public function render()
     {
         $heads = ['No', 'Kode Transaction', 'UserName', 'Product', 'Quantity', 'Jenis Pembayaran' , 'Transaction Total' ,'Status', 'Created At', 'action'];
-        $transactions = $this->transactionRepository->getPaginatedUsers($this->search, $this->limit);
-        return view('livewire.admin.transaction.transaction-list', [
-            'heads' => $heads,
-            'transactions' => $transactions
+        return view('livewire.admin.transaction.history-list', [
+            'heads' => $heads
         ]);
     }
 }

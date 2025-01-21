@@ -14,7 +14,7 @@
                     <label for="thumbnail"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Thumbnail</label>
                     <input type="file" wire:model.blur="thumbnail" name="thumbnail" id="thumbnail"
-                        accept="image/jpg, image/jpeg, image/png"
+                        accept="image/jpg, image/jpeg, image/png, image/svg+xml"
                         class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" />
 
                     <div x-show="uploading" class="w-full bg-gray-200 rounded-full h-1.5 mb-4 dark:bg-gray-700">

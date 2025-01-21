@@ -4,6 +4,9 @@ namespace App\Repository;
 
 use App\Interface\TransactionInterface;
 use App\Models\Transaction;
+use Exception;
+use Illuminate\Support\Facades\Auth;
+use Masmerise\Toaster\Toaster;
 
 class TransactionRepository implements TransactionInterface
 {
@@ -20,7 +23,9 @@ class TransactionRepository implements TransactionInterface
 
     public function getAll()
     {
-        return $this->transactionModel->all();
+        return $this->transactionModel
+            ->with(['user', 'product.category'])
+            ->all();
     }
 
     // public function getPaginatedUsers(?string $search, int $limit)
@@ -49,8 +54,32 @@ class TransactionRepository implements TransactionInterface
                         });
                 });
             })
-            ->orderBy('id', 'asc')
+            ->orderBy('id', 'desc')
             ->paginate($limit);
+    }
+
+    public function getHistoryByUser(?string $search, int $limit)
+    {
+        try {
+            $user = Auth::user();
+            $searchHistory = $this->transactionModel
+                ->with(['user', 'product.category'])
+                ->where('user_id', $user->id)
+                ->when($search, function ($query) use ($search) {
+                    $query->where(function ($query) use ($search) {
+                        $query->where('kode_unik', 'like', '%' . $search . '%') 
+                            ->orWhereHas('product', function ($query) use ($search) {
+                                $query->where('name', 'like', '%' . $search . '%');
+                            });
+                    });
+                })
+                ->orderBy('id', 'desc')
+                ->paginate($limit);
+
+            return  $searchHistory;
+        } catch (Exception $e) {
+             Toaster::error('Error search history: ' . $e->getMessage());
+        }
     }
 
 }
