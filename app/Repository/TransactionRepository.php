@@ -42,7 +42,7 @@ class TransactionRepository implements TransactionInterface
     //         ->paginate($limit);
     // }    
 
-    public function getPaginatedUsers(?string $search, int $limit)
+    public function getPaginatedUsers(?string $search, int $limit = 10)
     {
         return $this->transactionModel
             ->with(['user', 'product.category'])

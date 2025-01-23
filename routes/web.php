@@ -4,6 +4,8 @@ use App\Livewire\Admin\Category\CategoryCreate;
 use App\Livewire\Admin\Category\CategoryEdit;
 use App\Livewire\Admin\Category\CategoryList;
 use App\Livewire\Admin\Permission\PermissionList;
+use App\Livewire\Admin\PiutangTracker\DaftarPiutang;
+use App\Livewire\Admin\PiutangTracker\PiutangDetail;
 use App\Livewire\Admin\Product\ProductCreate;
 use App\Livewire\Admin\Product\ProductEdit;
 use App\Livewire\Admin\Product\ProductList;
@@ -49,6 +51,11 @@ Route::prefix('admin')->group(function () {
     Route::group(['prefix' => 'transaction', 'as' => 'transaction.'], function(){
        Route::get('/', TransactionList::class)->name('index');
        Route::get('/history/user', HistoryList::class)->name('historyUser');
+    });
+
+    Route::group(['prefix' => 'piutangs', 'as' => 'piutangs.'], function(){
+       Route::get('/', DaftarPiutang::class)->name('index');
+       Route::get('/detail/{piutang:id}', PiutangDetail::class)->name('detail');
     });
 
     Route::get('/product', ProductList::class)->name('productList');

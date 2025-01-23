@@ -23,25 +23,10 @@ class Transaction extends Model
         'status',
     ];
 
-    // /**
-    //  * Get the attributes that should be cast.
-    //  *
-    //  * @return array<string, string>
-    //  */
-    // protected function casts(): array
-    // {
-    //     return [
-    //         'akhir_jatuh_tempo' => 'datetime',
-    //         'awal_tempo' => 'datetime',
-    //     ];
-    // }
-
     protected $casts = [
         'akhir_jatuh_tempo' => 'datetime',
         'awal_tempo' => 'datetime',
     ];
-
-
 
     public function getPriceTotalAttribute()
     {

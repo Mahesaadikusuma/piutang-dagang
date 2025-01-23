@@ -164,10 +164,10 @@ class CheckoutPage extends Component
             $this->calculatePrice();
             $this->showError = false;
 
-            if ($this->qty > 5 && $this->paymentType !== 'cicilan') {
-                $this->paymentType = 'cicilan';
-                $this->setPaymentType('cicilan');
-            }
+            // if ($this->qty > 5 && $this->paymentType !== 'cicilan') {
+            //     $this->paymentType = 'cicilan';
+            //     $this->setPaymentType('cicilan');
+            // }
         } else {
             session()->flash('error', 'Jumlah produk melebihi stok tersedia.');
             $this->showError = true;
@@ -182,9 +182,9 @@ class CheckoutPage extends Component
             $this->showError = false;
 
             if ($this->qty <= 5 && $this->paymentType !== 'tunai') {
-            $this->paymentType = 'tunai';
-            $this->setPaymentType('tunai');
-        }
+                $this->paymentType = 'tunai';
+                $this->setPaymentType('tunai');
+            }
         }
     }
 

@@ -47,7 +47,12 @@
                 </tr>
             @empty
                 <tr class="border-b dark:border-gray-700">
-                    <td colspan="4" class="px-4 py-3 text-center">No Users found</td>
+                    <td colspan="{{ count($heads) }}" class="px-4 py-10 text-center">
+                        <div class="flex flex-col justify-center items-center h-full">
+                            <p class="text-gray-500 dark:text-gray-400 text-lg font-medium">No Users found
+                            </p>
+                        </div>
+                    </td>
                 </tr>
             @endforelse
 

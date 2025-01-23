@@ -5,12 +5,14 @@ namespace App\Providers;
 use App\Events\OrderStatusUpdated;
 use App\Interface\CategoryInterface;
 use App\Interface\PermissionInterface;
+use App\Interface\PiutangInterface;
 use App\Interface\ProductInterface;
 use App\Interface\RoleInterface;
 use App\Interface\UserInterface;
 use App\Listeners\SendOrderNotification;
 use App\Repository\CategoryRepository;
 use App\Repository\PermissionRepository;
+use App\Repository\PiutangRepository;
 use App\Repository\ProductRepository;
 use App\Repository\RoleRepository;
 use App\Repository\UserRepository;
@@ -29,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(UserInterface::class, UserRepository::class);
         $this->app->singleton(RoleInterface::class, RoleRepository::class);
         $this->app->singleton(PermissionInterface::class, PermissionRepository::class);
+        $this->app->singleton(PiutangInterface::class, PiutangRepository::class);
     }
 
     /**
