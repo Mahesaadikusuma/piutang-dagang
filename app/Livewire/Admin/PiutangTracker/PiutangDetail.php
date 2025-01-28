@@ -3,8 +3,10 @@
 namespace App\Livewire\Admin\PiutangTracker;
 
 use App\Models\Piutang;
+use App\Repository\PiutangRepository;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 
 #[Layout('layouts.dashboard')]
@@ -13,11 +15,36 @@ class PiutangDetail extends Component
 {   
     public Piutang $piutang;
 
+    #[Url(history:true)]
+    public $sortBy = 'id';
+
+    #[Url(history:true)]
+    public $sortDir = 'DESC';
+
+    protected $piutangRepository;
+    public function __construct()
+    {
+        $this->piutangRepository = new PiutangRepository();
+    }   
+
+    public function setSortBy($sortByField){
+
+        if($this->sortBy === $sortByField){
+            $this->sortDir = ($this->sortDir == "ASC") ? 'DESC' : "ASC";
+            return;
+        }
+
+        $this->sortBy = $sortByField;
+        $this->sortDir = 'DESC';
+    }
     public function render()
     {   
         $heads = ['Nomer Cicilan','Product', 'jumlah cicilan', 'awal tempo', 'akhir jatuh tempo', 'status pembanyaran'];
+
+        $cicilans = $this->piutangRepository->getCicilanByPiutang($this->piutang, $this->sortBy, $this->sortDir);
         return view('livewire.admin.piutang-tracker.piutang-detail', [
-            'heads' => $heads
+            'heads' => $heads,
+            'cicilans' => $cicilans,
         ]);
     }
 }

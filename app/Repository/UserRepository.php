@@ -32,14 +32,14 @@ class UserRepository implements UserInterface
         return $this->userModel->all();
     }
 
-    public function getPaginatedUsers(?string $search, int $limit)
+    public function getPaginatedUsers(?string $search, int $limit, $sortBy = 'id', $sortDir = 'DESC')
     {
         return $this->userModel
             ->with(['roles', 'permissions'])
             ->when($search, function ($query) use ($search) {
                 return $query->where('name', 'like', '%' . $search . '%');
             })
-            ->orderBy('id', 'asc')
+            ->orderBy($sortBy, $sortDir)
             ->paginate($limit);
 
     }

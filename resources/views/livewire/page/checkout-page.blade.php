@@ -137,8 +137,8 @@
                     class="rounded-full text-center bg-[#2D68F8] p-[8px_18px] font-semibold hover:bg-[#083297] active:bg-[#062162] transition-all duration-300">Checkout
                     Now</button>
 
-                <button wire:loading wire:target="checkout, decrement, increment" wire:loading.attr="disabled"
-                    type="button"
+                <button wire:loading wire:target="checkout, decrement, increment, setPaymentType"
+                    wire:loading.attr="disabled" type="button"
                     class="rounded-full text-center bg-[#2D68F8] p-[8px_18px] bg-opacity-50 font-semibold hover:bg-[#083297] active:bg-[#062162] transition-all duration-300">
                     <svg aria-hidden="true" role="status" class="inline w-4 h-4 me-3 text-white animate-spin"
                         viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">

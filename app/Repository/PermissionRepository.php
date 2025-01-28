@@ -23,13 +23,13 @@ class PermissionRepository implements PermissionInterface
         return $this->permissionModel->all();
     }
 
-    public function getPaginatedPermissions(?string $search, int $limit)
+    public function getPaginatedPermissions(?string $search, int $limit, $sortBy = 'id', $sortDir = 'DESC')
     {
         return $this->permissionModel
             ->when($search, function ($query) use ($search) {
                 return $query->where('name', 'like', '%' . $search . '%');
             })
-            ->orderBy('id', 'asc')
+            ->orderBy($sortBy, $sortDir)
             ->paginate($limit);
     }
 

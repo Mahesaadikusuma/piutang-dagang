@@ -25,7 +25,7 @@
                     <livewire:admin.roles.create />
                 </div>
             </x-slot>
-            @forelse ($roles as $role)
+            @forelse ($this->roles as $role)
                 <tr class="border-b dark:border-gray-700">
                     <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{ $loop->iteration }}
@@ -49,7 +49,7 @@
             @endforelse
 
             <x-slot name="pagination">
-                {{ $roles->links() }}
+                {{ $this->roles->links() }}
             </x-slot>
         </x-table>
     </section>

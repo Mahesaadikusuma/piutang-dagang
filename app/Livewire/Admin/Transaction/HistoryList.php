@@ -18,7 +18,15 @@ class HistoryList extends Component
 
     #[Url()]
     public $search = '';
-    public $limit = 30;
+
+    #[Url()]
+    public $limit = 5;
+
+    #[Url(history:true)]
+    public $sortBy = 'id';
+
+    #[Url(history:true)]
+    public $sortDir = 'DESC';
 
     protected $transactionRepository;
     public function __construct()
@@ -26,10 +34,22 @@ class HistoryList extends Component
         $this->transactionRepository = new TransactionRepository();
     }
 
-    #[Computed()]
+
+    public function setSortBy($sortByField){
+
+        if($this->sortBy === $sortByField){
+            $this->sortDir = ($this->sortDir == "ASC") ? 'DESC' : "ASC";
+            return;
+        }
+
+        $this->sortBy = $sortByField;
+        $this->sortDir = 'DESC';
+    }
+
+    #[Computed(persist: true)]
     public function HistoryUser()
     {
-        return $this->transactionRepository->getHistoryByUser($this->search, $this->limit);
+        return $this->transactionRepository->getHistoryByUser($this->search, $this->limit, $this->sortBy,$this->sortDir);
     }
 
     public function render()

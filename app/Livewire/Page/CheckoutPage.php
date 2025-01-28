@@ -11,6 +11,7 @@ use App\Models\Transaction;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
@@ -35,7 +36,7 @@ class CheckoutPage extends Component
     public $start_at;
     public $end_at;
 
-    #[Url(keep: true)] 
+    #[Url(keep: true)]
     public $paymentType = 'tunai';
 
     public function mount()
@@ -72,84 +73,82 @@ class CheckoutPage extends Component
     {
         try {
             $this->showError = false;
+
+            // Validasi pembayaran cicilan
             if ($this->paymentType === 'cicilan') {
-                // Validasi untuk cicilan
                 $this->validate([
                     'start_at' => 'required|date|after_or_equal:' . now()->format('Y-m-d'),
                     'end_at' => 'required|date|after_or_equal:' . Carbon::parse($this->start_at)->addMonths(3)->format('Y-m-d'),
                     'setCicilan' => 'required|integer|min:2|max:12',
                 ]);
             } else {
-                // Null-kan jika pembayaran tunai
                 $this->start_at = null;
                 $this->end_at = null;
                 $this->setCicilan = null;
             }
 
-            $invoice = "JSX-" . rand(0000, 9999);
-            
-            // Simpan transaksi
-            $transaction = Transaction::create([
-                'user_id' => $this->user->id,
-                'product_id' => $this->product->id,
-                'transaction_total' => $this->total,
-                'kode_unik' => $invoice,
-                'jenis_pembayaran' => $this->paymentType,
-                'qty' => $this->qty,
-                'cicilan' => $this->setCicilan ?? null,
-                'awal_tempo' => $this->start_at ?? null,
-                'akhir_jatuh_tempo' => $this->end_at ?? null,
-                'status' => 'pending',
-            ]);
+            if ($this->qty > $this->product->stock) {
+                $this->showError = false;
+                session()->flash('error', 'Stok produk tidak mencukupi.');
+                return;
+            }
 
-            if ($this->paymentType === 'cicilan') {
-                $piutang = Piutang::create([
-                    'transaction_id' => $transaction->id,
+            // Transaksi dengan database transaction
+            DB::transaction(function () {
+                $invoice = "JSX-" . rand(0000, 9999);
+
+                $transaction = Transaction::create([
+                    'user_id' => $this->user->id,
                     'product_id' => $this->product->id,
+                    'transaction_total' => $this->total,
+                    'kode_unik' => $invoice,
+                    'jenis_pembayaran' => $this->paymentType,
+                    'qty' => $this->qty,
                     'cicilan' => $this->setCicilan ?? null,
                     'awal_tempo' => $this->start_at ?? null,
                     'akhir_jatuh_tempo' => $this->end_at ?? null,
-                    'jumlah_piutang' => $this->total,
                     'status' => 'pending',
                 ]);
 
-                // Calculate cicilan (installments)
-                $installmentAmount = $this->total / (int)$this->setCicilan;
-                $installmentInterval = Carbon::parse($this->start_at);
+                // Simpan data piutang jika pembayaran cicilan
+                if ($this->paymentType === 'cicilan') {
+                    $piutang = Piutang::create([
+                        'transaction_id' => $transaction->id,
+                        'product_id' => $this->product->id,
+                        'user_id' => $this->user->id,
+                        'cicilan' => $this->setCicilan ?? null,
+                        'awal_tempo' => $this->start_at ?? null,
+                        'akhir_jatuh_tempo' => $this->end_at ?? null,
+                        'jumlah_piutang' => $this->total,
+                        'status' => 'pending',
+                    ]);
 
-                // for ($i = 1; $i <= $this->setCicilan; $i++) {
-                //     Cicilan::create([
-                //         'piutang_id' => $piutang->id,
-                //         'nomor_cicilan' => $i,
-                //         'awal_tempo' => $i === 1 ? $this->start_at : $installmentInterval->format('Y-m-d'),
-                //         'akhir_jatuh_tempo' => $installmentInterval->addMonth()->format('Y-m-d'),
-                //         'jumlah_cicilan' => $installmentAmount,
-                //         'status_pembayaran' => 'pending',
-                //     ]);
-                // }
+                    $installmentAmount = $this->total / (int) $this->setCicilan;
+                    $installmentInterval = Carbon::parse($this->start_at);
 
-                $installments = collect(range(1, (int)$this->setCicilan))->map(function ($i) use ($piutang, $installmentAmount, $installmentInterval) {
-                    $currentTime = Carbon::now();
-                    return [
-                        'piutang_id' => $piutang->id,
-                        'nomor_cicilan' => $i,
-                        'awal_tempo' => $i === 1 ? $this->start_at : $installmentInterval->format('Y-m-d'),
-                        'akhir_jatuh_tempo' => $installmentInterval->addMonth()->format('Y-m-d'),
-                        'jumlah_cicilan' => $installmentAmount,
-                        'status_pembayaran' => 'pending',
-                        'created_at' => $currentTime,  // Manually set created_at
-                        'updated_at' => $currentTime,
-                    ];
-                });
-                Log::info($installments->toArray());
-                // Insert cicilan records in bulk
-                Cicilan::insert($installments->toArray());
-            }
+                    $installments = collect(range(1, (int) $this->setCicilan))->map(function ($i) use ($piutang, $installmentAmount, $installmentInterval) {
+                        $currentTime = Carbon::now();
+                        return [
+                            'piutang_id' => $piutang->id,
+                            'nomor_cicilan' => $i,
+                            'awal_tempo' => $i === 1 ? $this->start_at : $installmentInterval->format('Y-m-d'),
+                            'akhir_jatuh_tempo' => $installmentInterval->addMonth()->format('Y-m-d'),
+                            'jumlah_cicilan' => $installmentAmount,
+                            'status_pembayaran' => 'pending',
+                            'created_at' => $currentTime,
+                            'updated_at' => $currentTime,
+                        ];
+                    });
 
-            $this->product->decrement('stock', $this->qty);        
-            event(new OrderStatusUpdated($transaction));
+                    Cicilan::insert($installments->toArray());
+                }
 
-            return $this->redirect("/success/{$transaction->product->slug}", navigate:true);
+                $this->product->decrement('stock', $this->qty);
+                Log::info('Stok setelah pengurangan: ' . $this->product->stock);
+                event(new OrderStatusUpdated($transaction));
+            });
+
+            return $this->redirect("/success/{$this->product->slug}", navigate: true);
         } catch (\Exception $th) {
             $this->showError = true;
             session()->flash('error', 'Terjadi kesalahan: ' . $th->getMessage());
@@ -163,11 +162,6 @@ class CheckoutPage extends Component
             $this->qty++;
             $this->calculatePrice();
             $this->showError = false;
-
-            // if ($this->qty > 5 && $this->paymentType !== 'cicilan') {
-            //     $this->paymentType = 'cicilan';
-            //     $this->setPaymentType('cicilan');
-            // }
         } else {
             session()->flash('error', 'Jumlah produk melebihi stok tersedia.');
             $this->showError = true;
@@ -180,11 +174,6 @@ class CheckoutPage extends Component
             $this->qty--;
             $this->calculatePrice();
             $this->showError = false;
-
-            if ($this->qty <= 5 && $this->paymentType !== 'tunai') {
-                $this->paymentType = 'tunai';
-                $this->setPaymentType('tunai');
-            }
         }
     }
 

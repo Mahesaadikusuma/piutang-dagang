@@ -10,6 +10,7 @@ use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Masmerise\Toaster\Toaster;
+use Illuminate\Database\Eloquent\Collection;
 
 class PiutangRepository implements PiutangInterface
 {
@@ -31,7 +32,7 @@ class PiutangRepository implements PiutangInterface
             ->all();
     }
 
-    public function getPaginatedPiutang(?string $search, int $limit = 10)
+    public function getPaginatedPiutang(?string $search, int $limit = 10, $sortBy = 'id', $sortDir = 'DESC')
     {
         try {
             $piutangSearch = $this->piutangModel
@@ -50,25 +51,23 @@ class PiutangRepository implements PiutangInterface
                             });
                     });
                 })
-                ->orderBy('id', 'desc')
+                ->orderBy($sortBy, $sortDir)
                 ->paginate($limit);
 
-            // Jika data kosong
-            if ($piutangSearch->isEmpty()) {
-                Toaster::error('Data tidak ditemukan.');
-                return collect();
-            }
+            // if ($piutangSearch->isEmpty()) {
+            //     Toaster::error('Data tidak ditemukan.');
+            //     return collect();
+            // }
             
             return $piutangSearch;
         } catch (\Exception $e) {
-            // Tangkap error dan tampilkan notifikasi
             Toaster::error('Terjadi kesalahan saat mengambil data: ' . $e->getMessage());
             Log::error('Error in getPaginatedPiutang: ' . $e->getMessage());
             return collect();
         }
     }
 
-    public function getHistoryPiutangByUser(?string $search, int $limit)
+    public function getHistoryPiutangByUser(?string $search, int $limit, $sortBy = 'id', $sortDir = 'DESC')
     {
         try {
             $user = Auth::user();
@@ -86,7 +85,7 @@ class PiutangRepository implements PiutangInterface
                             });
                     });
                 })
-                ->orderBy('id', 'desc')
+                ->orderBy($sortBy, $sortDir)
                 ->paginate($limit);
 
             return  $searchHistory;
@@ -94,6 +93,14 @@ class PiutangRepository implements PiutangInterface
             Toaster::error('Error search history: ' . $e->getMessage());
             return collect();
         }
+    }
+
+
+    public function getCicilanByPiutang(Piutang $piutang, string $sortBy, string $sortDir): Collection
+    {
+        return $piutang->cicilans()
+            ->orderBy($sortBy, $sortDir)
+            ->get();
     }
 
 }

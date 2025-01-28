@@ -27,7 +27,7 @@
             <x-slot name="actions">
             </x-slot>
 
-            @forelse ($piutang->cicilans as $cicilan)
+            @forelse ($cicilans as $cicilan)
                 <tr class="border-b dark:border-gray-700">
                     <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{ $cicilan->nomor_cicilan }}
@@ -38,7 +38,9 @@
                     <td class="px-4 py-3">{{ $cicilan->akhir_jatuh_tempo_formatted }}</td>
                     <td class="px-4 py-3">{{ $cicilan->status_pembayaran }}</td>
                     <td class="px-4 py-3">
-                        @livewire('admin.piutang-tracker.cicilan.edit-cidilan', ['cicilan' => $cicilan], key($cicilan->id))
+                        <div class="" wire:ignore>
+                            @livewire('admin.piutang-tracker.cicilan.edit-cidilan', ['cicilan' => $cicilan], key($cicilan->id))
+                        </div>
                     </td>
                 </tr>
             @empty

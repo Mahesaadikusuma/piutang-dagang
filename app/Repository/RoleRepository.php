@@ -29,14 +29,14 @@ class RoleRepository implements RoleInterface
         return $this->roleModel->all();
     }
 
-    public function getPaginatedRoles(?string $search, int $limit)
+    public function getPaginatedRoles(?string $search, int $limit, $sortBy = 'id', $sortDir = 'DESC')
     {
         return $this->roleModel
             ->with(['permissions'])
             ->when($search, function ($query) use ($search) {
                 return $query->where('name', 'like', '%' . $search . '%');
             })
-            ->orderBy('id', 'asc')
+            ->orderBy($sortBy, $sortDir)
             ->paginate($limit);
     }
 

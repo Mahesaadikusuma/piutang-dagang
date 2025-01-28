@@ -49,7 +49,7 @@ class Product extends Model
 
     public function getStockedAttribute()
     {
-        return number_format($this->price, 0, ',', '.');
+        return number_format($this->stock, 0, ',', '.');
     }
 
     protected function price(): Attribute

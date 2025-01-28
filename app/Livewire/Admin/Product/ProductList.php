@@ -20,7 +20,25 @@ class ProductList extends Component
     #[Url()]
     public $search = '';
 
-    public $limit = 20;
+    #[Url()]
+    public $limit = 5;
+
+    #[Url(history:true)]
+    public $sortBy = 'id';
+
+    #[Url(history:true)]
+    public $sortDir = 'DESC';
+
+    public function setSortBy($sortByField){
+
+        if($this->sortBy === $sortByField){
+            $this->sortDir = ($this->sortDir == "ASC") ? 'DESC' : "ASC";
+            return;
+        }
+
+        $this->sortBy = $sortByField;
+        $this->sortDir = 'DESC';
+    }
 
     protected $productRepository;
     public function __construct()
@@ -32,7 +50,7 @@ class ProductList extends Component
     public function render()
     {
         $heads = ['No','Name','Category','Description', 'Thumbnail', 'Stock', 'Price', 'created_at'];
-        $products = $this->productRepository->getPaginatedProducts($this->search, $this->limit);
+        $products = $this->productRepository->getPaginatedProducts($this->search, $this->limit, $this->sortBy,$this->sortDir);
 
         return view('livewire.admin.product.product-list', [
             'heads' => $heads,

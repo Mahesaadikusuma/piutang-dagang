@@ -23,11 +23,11 @@ class CategoryRepository implements CategoryInterface
         return $this->CategoryModel->all();
     }
 
-    public function getCategories($search, $limit = 10)
+    public function getCategories($search, $limit = 10, $sortBy = 'id', $sortDir = 'DESC')
     {
         return $this->CategoryModel
             ->where('name', 'like', '%' . $search . '%')
-            ->orderBy('id', 'desc')
+            ->orderBy($sortBy, $sortDir)
             ->paginate($limit);
     }
 

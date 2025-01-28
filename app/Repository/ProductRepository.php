@@ -32,12 +32,12 @@ class ProductRepository implements ProductInterface
             ->get();
     }
 
-    public function getPaginatedProducts($search, $limit = 10)
+    public function getPaginatedProducts($search, $limit = 10, $sortBy = 'id', $sortDir = 'DESC')
     {
         return $this->ProductModel
             ->with('category')
             ->where('name', 'like', '%' . $search . '%')
-            ->orderBy('id', 'desc')
+            ->orderBy($sortBy, $sortDir)
             ->paginate($limit);
     }
 

@@ -16,27 +16,43 @@ use Livewire\WithPagination;
 class CategoryList extends Component
 {
     use WithPagination;
+
+    #[Url]
+    public $search = '';
+
+    #[Url()]
+    public $limit = 5;
+
+    #[Url(history:true)]
+    public $sortBy = 'id';
+
+    #[Url(history:true)]
+    public $sortDir = 'DESC';
+
     protected $categoryRepository;
     public function __construct()
     {
         $this->categoryRepository = new CategoryRepository();
     }
 
-    #[Url]
-    public $search = '';
 
-    public $limit = 20;
+    public function setSortBy($sortByField){
 
+        if($this->sortBy === $sortByField){
+            $this->sortDir = ($this->sortDir == "ASC") ? 'DESC' : "ASC";
+            return;
+        }
+
+        $this->sortBy = $sortByField;
+        $this->sortDir = 'DESC';
+    }
+
+   
     #[On('category-deleted')] 
     public function render()
     {
-        $heads = ['No','Name', 'Slug', 'Thumbnail'];
-
-        $categories = Category::where('name', 'like', '%' . $this->search . '%')
-            ->orderBy('id', 'desc')
-            ->paginate($this->limit);   
-
-        $this->categoryRepository->getCategories($this->search, $this->limit);
+        $heads = ['No','Name', 'Slug', 'Thumbnail'];     
+        $categories = $this->categoryRepository->getCategories($this->search, $this->limit, $this->sortBy,$this->sortDir);
 
         return view('livewire.admin.category.category-list',[
             'categories' => $categories,

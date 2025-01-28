@@ -25,7 +25,7 @@
                     <livewire:admin.permission.permission-create />
                 </div>
             </x-slot>
-            @forelse ($permissions as $permission)
+            @forelse ($this->permissions as $permission)
                 <tr class="border-b dark:border-gray-700">
                     <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{ $loop->iteration }}
@@ -50,7 +50,7 @@
             @endforelse
 
             <x-slot name="pagination">
-                {{ $permissions->links() }}
+                {{ $this->permissions->links() }}
             </x-slot>
         </x-table>
     </section>

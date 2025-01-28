@@ -42,23 +42,23 @@ class TransactionRepository implements TransactionInterface
     //         ->paginate($limit);
     // }    
 
-    public function getPaginatedUsers(?string $search, int $limit = 10)
+    public function getPaginatedUsers(?string $search, int $limit = 10, $sortBy = 'id', $sortDir = 'DESC')
     {
         return $this->transactionModel
             ->with(['user', 'product.category'])
             ->when($search, function ($query) use ($search) {
                 $query->where(function ($query) use ($search) {
-                    $query->where('kode_unik', 'like', '%' . $search . '%') // Pencarian di transaksi
-                        ->orWhereHas('product', function ($query) use ($search) { // Pencarian di relasi product
+                    $query->where('kode_unik', 'like', '%' . $search . '%')
+                        ->orWhereHas('product', function ($query) use ($search) { 
                             $query->where('name', 'like', '%' . $search . '%');
                         });
                 });
             })
-            ->orderBy('id', 'desc')
+            ->orderBy($sortBy, $sortDir)
             ->paginate($limit);
     }
 
-    public function getHistoryByUser(?string $search, int $limit)
+    public function getHistoryByUser(?string $search, int $limit, $sortBy = 'id', $sortDir = 'DESC')
     {
         try {
             $user = Auth::user();
@@ -73,12 +73,12 @@ class TransactionRepository implements TransactionInterface
                             });
                     });
                 })
-                ->orderBy('id', 'desc')
+                ->orderBy($sortBy, $sortDir)
                 ->paginate($limit);
 
             return  $searchHistory;
         } catch (Exception $e) {
-             Toaster::error('Error search history: ' . $e->getMessage());
+            Toaster::error('Error search history: ' . $e->getMessage());
         }
     }
 

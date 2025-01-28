@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Transaction;
 
 use App\Repository\TransactionRepository;
+use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
@@ -17,7 +18,15 @@ class TransactionList extends Component
 
     #[Url()]
     public $search = '';
-    public $limit = 30;
+
+    #[Url()]
+    public $limit = 5;
+
+    #[Url(history:true)]
+    public $sortBy = 'id';
+
+    #[Url(history:true)]
+    public $sortDir = 'DESC';
 
     protected $transactionRepository;
     public function __construct()
@@ -25,13 +34,29 @@ class TransactionList extends Component
         $this->transactionRepository = new TransactionRepository();
     }
 
+    public function setSortBy($sortByField){
+
+        if($this->sortBy === $sortByField){
+            $this->sortDir = ($this->sortDir == "ASC") ? 'DESC' : "ASC";
+            return;
+        }
+
+        $this->sortBy = $sortByField;
+        $this->sortDir = 'DESC';
+    }
+
+    #[Computed(persist: true)]
+    public function transactions()
+    {
+        return $this->transactionRepository->getPaginatedUsers($this->search, $this->limit, $this->sortBy,$this->sortDir);
+    }
+    
+
     public function render()
     {
         $heads = ['No', 'Kode Transaction', 'UserName', 'Product', 'Quantity', 'Jenis Pembayaran' , 'Transaction Total' ,'Status', 'Created At', 'action'];
-        $transactions = $this->transactionRepository->getPaginatedUsers($this->search, $this->limit);
         return view('livewire.admin.transaction.transaction-list', [
             'heads' => $heads,
-            'transactions' => $transactions
         ]);
     }
 }

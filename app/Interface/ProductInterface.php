@@ -6,7 +6,7 @@ interface ProductInterface
 {
     public function getAll();
     public function getProductLimit($limit = 10);
-    public function getPaginatedProducts($search, $limit = 10);
+    public function getPaginatedProducts($search, $limit = 10, $sortBy = 'id', $sortDir = 'DESC');
     public function getProduct($id);
     public function getOtherProducts($slug);
     public function createProduct(array $data);
