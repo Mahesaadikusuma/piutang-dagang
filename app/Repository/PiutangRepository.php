@@ -54,11 +54,14 @@ class PiutangRepository implements PiutangInterface
                 ->orderBy($sortBy, $sortDir)
                 ->paginate($limit);
 
-            // if ($piutangSearch->isEmpty()) {
-            //     Toaster::error('Data tidak ditemukan.');
-            //     return collect();
-            // }
-            
+            if ($search) {
+                if ($piutangSearch->isNotEmpty()) {
+                    Toaster::success("Data yang dicari ditemukan.");
+                } else {
+                    Toaster::error("Data yang dicari tidak ditemukan.");
+                }
+            }
+
             return $piutangSearch;
         } catch (\Exception $e) {
             Toaster::error('Terjadi kesalahan saat mengambil data: ' . $e->getMessage());
@@ -87,6 +90,14 @@ class PiutangRepository implements PiutangInterface
                 })
                 ->orderBy($sortBy, $sortDir)
                 ->paginate($limit);
+
+            if ($search) {
+                if ($searchHistory->isNotEmpty()) {
+                    Toaster::info("Data yang dicari ditemukan.");
+                } else {
+                    Toaster::error("Data yang dicari tidak ditemukan.");
+                }
+            }
 
             return  $searchHistory;
         } catch (Exception $e) {

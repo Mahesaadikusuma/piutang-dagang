@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Nette\Utils\Strings;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Cache;
+use Masmerise\Toaster\Toaster;
 
 class UserRepository implements UserInterface
 {
@@ -34,14 +35,23 @@ class UserRepository implements UserInterface
 
     public function getPaginatedUsers(?string $search, int $limit, $sortBy = 'id', $sortDir = 'DESC')
     {
-        return $this->userModel
+        $users = $this->userModel
             ->with(['roles', 'permissions'])
             ->when($search, function ($query) use ($search) {
                 return $query->where('name', 'like', '%' . $search . '%');
             })
             ->orderBy($sortBy, $sortDir)
             ->paginate($limit);
+        
+        if ($search) {
+            if ($users->isNotEmpty()) {
+                Toaster::success("Data yang dicari ditemukan.");
+            } else {
+                Toaster::error("Data yang dicari tidak ditemukan.");
+            }
+        }
 
+        return $users;
     }
 
     public function getAllRoles()

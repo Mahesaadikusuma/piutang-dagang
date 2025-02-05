@@ -48,7 +48,7 @@ class TransactionList extends Component
     #[Computed()]
     public function transactions()
     {
-        return $this->transactionRepository->getPaginatedUsers($this->search, $this->limit, $this->sortBy,$this->sortDir);
+        return $this->transactionRepository->getPaginatedTransactions($this->search, $this->limit, $this->sortBy,$this->sortDir);
     }
     
 

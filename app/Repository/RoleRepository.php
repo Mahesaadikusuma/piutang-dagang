@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Nette\Utils\Strings;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Cache;
+use Masmerise\Toaster\Toaster;
 
 class RoleRepository implements RoleInterface
 {
@@ -31,13 +32,24 @@ class RoleRepository implements RoleInterface
 
     public function getPaginatedRoles(?string $search, int $limit, $sortBy = 'id', $sortDir = 'DESC')
     {
-        return $this->roleModel
+        $roles = $this->roleModel
             ->with(['permissions'])
             ->when($search, function ($query) use ($search) {
                 return $query->where('name', 'like', '%' . $search . '%');
             })
             ->orderBy($sortBy, $sortDir)
             ->paginate($limit);
+
+
+        if ($search) {
+            if ($roles->isNotEmpty()) {
+                Toaster::success("Data yang dicari ditemukan.");
+            } else {
+                Toaster::error("Data yang dicari tidak ditemukan.");
+            }
+        }
+
+        return $roles;
     }
 
     public function createdrole(array $data)

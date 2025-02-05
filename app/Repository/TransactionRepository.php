@@ -42,9 +42,10 @@ class TransactionRepository implements TransactionInterface
     //         ->paginate($limit);
     // }    
 
-    public function getPaginatedUsers(?string $search, int $limit = 10, $sortBy = 'id', $sortDir = 'DESC')
+    public function getPaginatedTransactions(?string $search, int $limit = 10, $sortBy = 'id', $sortDir = 'DESC')
     {
-        return $this->transactionModel
+        try {
+            $transactions = $this->transactionModel
             ->with(['user', 'product.category'])
             ->when($search, function ($query) use ($search) {
                 $query->where(function ($query) use ($search) {
@@ -56,6 +57,19 @@ class TransactionRepository implements TransactionInterface
             })
             ->orderBy($sortBy, $sortDir)
             ->paginate($limit);
+
+        if ($search) {
+            if ($transactions->isNotEmpty()) {
+                Toaster::success("Data yang dicari ditemukan.");
+            } else {
+                Toaster::error("Data yang dicari tidak ditemukan.");
+            }
+        }
+
+        return $transactions;
+        } catch (Exception $e) {
+            Toaster::error('Error search history: ' . $e->getMessage());
+        }
     }
 
     public function getHistoryByUser(?string $search, int $limit, $sortBy = 'id', $sortDir = 'DESC')
@@ -75,6 +89,15 @@ class TransactionRepository implements TransactionInterface
                 })
                 ->orderBy($sortBy, $sortDir)
                 ->paginate($limit);
+            
+
+            if ($search) {
+                if ($searchHistory->isNotEmpty()) {
+                    Toaster::success("Data yang dicari ditemukan.");
+                } else {
+                    Toaster::error("Data yang dicari tidak ditemukan.");
+                }
+            }
 
             return  $searchHistory;
         } catch (Exception $e) {

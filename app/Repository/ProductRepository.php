@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Interface\ProductInterface;
 use App\Models\Product;
 use Illuminate\Support\Facades\Storage;
+use Masmerise\Toaster\Toaster;
 
 class ProductRepository implements ProductInterface
 {
@@ -34,11 +35,21 @@ class ProductRepository implements ProductInterface
 
     public function getPaginatedProducts($search, $limit = 10, $sortBy = 'id', $sortDir = 'DESC')
     {
-        return $this->ProductModel
+        $products = $this->ProductModel
             ->with('category')
             ->where('name', 'like', '%' . $search . '%')
             ->orderBy($sortBy, $sortDir)
             ->paginate($limit);
+
+        if ($search) {
+            if ($products->isNotEmpty()) {
+                Toaster::success("Data yang dicari ditemukan.");
+            } else {
+                Toaster::error("Data yang dicari tidak ditemukan.");
+            }
+        }
+
+        return $products;
     }
 
     public function getProduct($id)

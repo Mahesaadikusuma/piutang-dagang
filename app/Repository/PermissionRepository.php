@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Interface\PermissionInterface;
+use Masmerise\Toaster\Toaster;
 use Spatie\Permission\Models\Permission;
 
 class PermissionRepository implements PermissionInterface
@@ -25,12 +26,22 @@ class PermissionRepository implements PermissionInterface
 
     public function getPaginatedPermissions(?string $search, int $limit, $sortBy = 'id', $sortDir = 'DESC')
     {
-        return $this->permissionModel
+        $permission = $this->permissionModel
             ->when($search, function ($query) use ($search) {
                 return $query->where('name', 'like', '%' . $search . '%');
             })
             ->orderBy($sortBy, $sortDir)
             ->paginate($limit);
+        
+        if ($search) {
+            if ($permission->isNotEmpty()) {
+                Toaster::success("Data yang dicari ditemukan.");
+            } else {
+                Toaster::error("Data yang dicari tidak ditemukan.");
+            }
+        }
+
+        return $permission;
     }
 
     public function createdPermission(array $data)

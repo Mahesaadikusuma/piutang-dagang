@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Interface\CategoryInterface;
 use App\Models\Category;
 use Illuminate\Support\Facades\Storage;
+use Masmerise\Toaster\Toaster;
 
 class CategoryRepository implements CategoryInterface
 {
@@ -25,10 +26,20 @@ class CategoryRepository implements CategoryInterface
 
     public function getCategories($search, $limit = 10, $sortBy = 'id', $sortDir = 'DESC')
     {
-        return $this->CategoryModel
+        $categories = $this->CategoryModel
             ->where('name', 'like', '%' . $search . '%')
             ->orderBy($sortBy, $sortDir)
             ->paginate($limit);
+
+        if ($search) {
+            if ($categories->isNotEmpty()) {
+                Toaster::success("Data yang dicari ditemukan.");
+            } else {
+                Toaster::error("Data yang dicari tidak ditemukan.");
+            }
+        }
+
+        return $categories;
     }
 
     public function getCategoryDetail($id)
