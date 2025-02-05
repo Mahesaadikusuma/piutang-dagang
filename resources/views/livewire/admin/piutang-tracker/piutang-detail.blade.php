@@ -43,8 +43,13 @@
                     <td class="px-4 py-3">{{ $cicilan->akhir_jatuh_tempo_formatted }}</td>
                     <td class="px-4 py-3">{{ $cicilan->status_pembayaran }}</td>
                     <td class="px-4 py-3">
-                        <div class="" wire:ignore>
+                        <div class="flex gap-3 items-center" wire:ignore>
                             @livewire('admin.piutang-tracker.cicilan.edit-cidilan', ['cicilan' => $cicilan], key($cicilan->id))
+                            @if ($cicilan->status_pembayaran === App\Enums\StatusType::SUCCESS->value)
+                                sudah success
+                            @else
+                                @livewire('admin.piutang-tracker.cicilan.transaction', ['cicilan' => $cicilan], key($cicilan->id))
+                            @endif
                         </div>
                     </td>
                 </tr>

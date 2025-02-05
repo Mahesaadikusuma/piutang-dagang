@@ -139,7 +139,7 @@
                 <div
                     class="testimonial-card bg-[#181818] rounded-[20px] flex mr-5 w-[420px] min-h-[256px] shrink-0 overflow-hidden">
                     <div
-                        class="p-6 flex flex-col w-full gap-[42px] shrink-0 bg-[url('assets/images/backgrounds/Testimonials-image.png')] bg-contain bg-no-repeat bg-top">
+                        class="p-6 flex flex-col w-full gap-[42px] shrink-0 bg-[url('{{ asset('assets/images/backgrounds/Testimonials-image.png') }}')] bg-contain bg-no-repeat bg-top">
                         <div class="flex flex-col gap-4">
                             <div class="flex items-center ga-[6px]">
                                 <img src="{{ asset('assets/images/icons/star.svg') }}" alt="star">
@@ -169,7 +169,7 @@
                 <div
                     class="testimonial-card bg-[#181818] rounded-[20px] flex mr-5 w-[420px] min-h-[256px] shrink-0 overflow-hidden">
                     <div
-                        class="p-6 flex flex-col w-full gap-[42px] shrink-0 bg-[url('assets/images/backgrounds/Testimonials-image.png')] bg-contain bg-no-repeat bg-top">
+                        class="p-6 flex flex-col w-full gap-[42px] shrink-0 bg-[url('{{ asset('assets/images/backgrounds/Testimonials-image.png') }}')] bg-contain bg-no-repeat bg-top">
                         <div class="flex flex-col gap-4">
                             <div class="flex items-center ga-[6px]">
                                 <img src="{{ asset('assets/images/icons/star.svg') }}" alt="star">
@@ -199,7 +199,7 @@
                 <div
                     class="testimonial-card bg-[#181818] rounded-[20px] flex mr-5 w-[420px] min-h-[256px] shrink-0 overflow-hidden">
                     <div
-                        class="p-6 flex flex-col w-full gap-[42px] shrink-0 bg-[url('assets/images/backgrounds/Testimonials-image.png')] bg-contain bg-no-repeat bg-top">
+                        class="p-6 flex flex-col w-full gap-[42px] shrink-0 bg-[url('{{ asset('assets/images/backgrounds/Testimonials-image.png') }}')] bg-contain bg-no-repeat bg-top">
                         <div class="flex flex-col gap-4">
                             <div class="flex items-center ga-[6px]">
                                 <img src="{{ asset('assets/images/icons/star.svg') }}" alt="star">
@@ -228,7 +228,7 @@
                 <div
                     class="testimonial-card bg-[#181818] rounded-[20px] flex mr-5 w-[420px] min-h-[256px] shrink-0 overflow-hidden">
                     <div
-                        class="p-6 flex flex-col w-full gap-[42px] shrink-0 bg-[url('assets/images/backgrounds/Testimonials-image.png')] bg-contain bg-no-repeat bg-top">
+                        class="p-6 flex flex-col w-full gap-[42px] shrink-0 bg-[url('{{ asset('assets/images/backgrounds/Testimonials-image.png') }}')] bg-contain bg-no-repeat bg-top">
                         <div class="flex flex-col gap-4">
                             <div class="flex items-center ga-[6px]">
                                 <img src="{{ asset('assets/images/icons/star.svg') }}" alt="star">
@@ -258,7 +258,7 @@
                 <div
                     class="testimonial-card bg-[#181818] rounded-[20px] flex mr-5 w-[420px] min-h-[256px] shrink-0 overflow-hidden">
                     <div
-                        class="p-6 flex flex-col w-full gap-[42px] shrink-0 bg-[url('assets/images/backgrounds/Testimonials-image.png')] bg-contain bg-no-repeat bg-top">
+                        class="p-6 flex flex-col w-full gap-[42px] shrink-0 bg-[url('{{ asset('assets/images/backgrounds/Testimonials-image.png') }}')] bg-contain bg-no-repeat bg-top">
                         <div class="flex flex-col gap-4">
                             <div class="flex items-center ga-[6px]">
                                 <img src="{{ asset('assets/images/icons/star.svg') }}" alt="star">

@@ -42,7 +42,7 @@ class PiutangDetail extends Component
     #[On("cicilan-updated")]
     public function render()
     {   
-        $heads = ['Nomer Cicilan','Product', 'jumlah cicilan', 'awal tempo', 'akhir jatuh tempo', 'status pembanyaran'];
+        $heads = ['Nomer Cicilan','Product', 'jumlah cicilan', 'awal tempo', 'akhir jatuh tempo', 'status pembanyaran', "action"];
 
         $cicilans = $this->piutangRepository->getCicilanByPiutang($this->piutang, $this->sortBy, $this->sortDir);
         return view('livewire.admin.piutang-tracker.piutang-detail', [

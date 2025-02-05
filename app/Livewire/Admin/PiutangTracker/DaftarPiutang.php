@@ -45,6 +45,12 @@ class DaftarPiutang extends Component
         $this->sortDir = 'DESC';
     }
 
+    public function handleSearch()
+    {
+        // Contoh aksi, misal panggil query pencarian
+        return $this->piutangRepository->getPaginatedPiutang($this->search, $this->limit, $this->sortBy,$this->sortDir);
+    }
+
     #[Computed()]
     public function piutangs()
     {
