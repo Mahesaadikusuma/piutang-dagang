@@ -45,7 +45,7 @@ class DaftarPiutang extends Component
         $this->sortDir = 'DESC';
     }
 
-    #[Computed(persist: true)]
+    #[Computed()]
     public function piutangs()
     {
         return $this->piutangRepository->getPaginatedPiutang($this->search, $this->limit, $this->sortBy,$this->sortDir);

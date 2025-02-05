@@ -4,7 +4,7 @@ import Alpine from "alpinejs";
 // import Precognition from "laravel-precognition-alpine";
 import mask from "@alpinejs/mask";
 import "../../vendor/masmerise/livewire-toaster/resources/js";
-import flatpickr from "flatpickr";
+import "flatpickr";
 
 // window.Alpine = Alpine;
 

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\StatusType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -19,6 +20,13 @@ class Cicilan extends Model
         'akhir_jatuh_tempo',
         'jumlah_cicilan',
         'status_pembayaran',
+        'tanggal_lunas',
+    ];
+
+    protected $casts = [
+        // 'akhir_jatuh_tempo' => 'datetime',
+        // 'awal_tempo' => 'datetime',
+        'status' => StatusType::class,
     ];
 
     public function awalTempoFormatted(): Attribute
@@ -45,7 +53,14 @@ class Cicilan extends Model
     {
         return Attribute::make(
             get: fn($value, $attributes) =>
-                'Rp. ' . number_format($attributes['jumlah_cicilan'], 0, ',', '.')
+                'Rp. ' . number_format($attributes['jumlah_cicilan'], 0, ',', '.'),
+        );
+    }
+
+     protected function jumlahCicilan(): Attribute
+    {
+        return Attribute::make(
+            set: fn($value) => (int) preg_replace('/[^\d]/', '', $value)
         );
     }
 

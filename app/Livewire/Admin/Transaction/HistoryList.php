@@ -46,7 +46,7 @@ class HistoryList extends Component
         $this->sortDir = 'DESC';
     }
 
-    #[Computed(persist: true)]
+    #[Computed()]
     public function HistoryUser()
     {
         return $this->transactionRepository->getHistoryByUser($this->search, $this->limit, $this->sortBy,$this->sortDir);

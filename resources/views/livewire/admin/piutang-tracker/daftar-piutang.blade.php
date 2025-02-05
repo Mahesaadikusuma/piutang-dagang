@@ -80,9 +80,12 @@
                     <td class="px-4 py-3">{{ $piutang->awal_tempo_formatted }}</td>
                     <td class="px-4 py-3">{{ $piutang->akhir_jatuh_tempo_formatted }}</td>
                     <td class="px-4 py-3">
-                        <a href="{{ route('piutangs.detail', $piutang->id) }}" class="text-blue-600 hover:underline">
-                            Show
-                        </a>
+                        <div wire:ignore class="">
+                            <a wire:navigate href="{{ route('piutangs.detail', $piutang->id) }}"
+                                class="text-blue-600 hover:underline">
+                                Show
+                            </a>
+                        </div>
 
                     </td>
                 </tr>

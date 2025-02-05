@@ -16,6 +16,11 @@
             <div class="w-3/12 object-cover">
                 <img src="{{ Storage::url($piutang->product->thumbnail) }}" alt="">
             </div>
+
+            <div class="">
+                <p>Awal Tempo : {{ $piutang->awal_tempo_formatted }}</p>
+                <p>Akhir Tempo: {{ $piutang->akhir_jatuh_tempo_formatted }}</p>
+            </div>
         </div>
     </div>
 
@@ -28,7 +33,7 @@
             </x-slot>
 
             @forelse ($cicilans as $cicilan)
-                <tr class="border-b dark:border-gray-700">
+                <tr wire:key="{{ $cicilan->id }}" class="border-b dark:border-gray-700">
                     <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{ $cicilan->nomor_cicilan }}
                     </th>
@@ -51,5 +56,4 @@
             </x-slot>
         </x-table>
     </div>
-
 </div>

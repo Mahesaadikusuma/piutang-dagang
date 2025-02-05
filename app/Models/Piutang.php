@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\StatusType;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -28,6 +29,7 @@ class Piutang extends Model
     protected $casts = [
         'akhir_jatuh_tempo' => 'datetime',
         'awal_tempo' => 'datetime',
+        'status' => StatusType::class,
     ];
 
     public function awalTempoFormatted(): Attribute

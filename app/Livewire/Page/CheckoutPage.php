@@ -32,7 +32,7 @@ class CheckoutPage extends Component
     public float $total;
     public float $tax = 0.11;
 
-    public $setCicilan = '2'; // Default cicilan
+    public $setCicilan = '2';
     public $start_at;
     public $end_at;
 

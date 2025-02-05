@@ -45,7 +45,7 @@ class TransactionList extends Component
         $this->sortDir = 'DESC';
     }
 
-    #[Computed(persist: true)]
+    #[Computed()]
     public function transactions()
     {
         return $this->transactionRepository->getPaginatedUsers($this->search, $this->limit, $this->sortBy,$this->sortDir);
